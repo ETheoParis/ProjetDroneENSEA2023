@@ -12,6 +12,6 @@ pose(){pose le drone en ralentissant sa chute quand proche du sol}
 
 calculTension(vitesse){calcul la tension à appliquer à un moteur pour qu'il tourne à une certaine vitesse}
 
-haltitudeBasse(courant dans les moteurs){true si le drone est proche du sol}
+altitudeBasse(courant dans les moteurs){true si le drone est proche du sol}
 
 commande moteur(tension/vitesse){commande les moteurs avec la tension/vitesse voulue}
