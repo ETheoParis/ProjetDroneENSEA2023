@@ -1,16 +1,16 @@
-asservissement(vitesseVoulue,vitesseActuelle){revoie les valeurs des tension à appliqué aux moteurs pour avancé dans une directionà la vitesse voulue}
+asservissement(vitesseVoulue,vitesseActuelle){renvoie les valeurs des tensions à appliquer aux moteurs pour avancer dans une direction à la vitesse voulue}
 
-calculevitesse(accelerationAngulaire, accelerationTranslation){calcul vitesse angulaire et vitesse translation avec donnés de accéléromètre et giroscope}
+calculevitesse(accelerationAngulaire, accelerationTranslation){calcul vitesse angulaire et vitesse translation avec les données d'accéléromètre et gyroscope}
 
-monte(metre){commande les moteurs pour monter de metre}
+monte(metre){commande les moteurs pour monter de x metres}
 
-avance(metre){commande les moteurs pour avancé de metre}
+avance(metre){commande les moteurs pour avancer de x metres}
 
-descend(metre){commande les moteurs pour descendre de metre}
+descend(metre){commande les moteurs pour descendre de x metres}
 
 pose(){pose le drone en ralentissant sa chute quand proche du sol}
 
-calculTension(vitesse){calcul la tension à appliqué à un moteur pour qu'il tourne à une certaine vitesse}
+calculTension(vitesse){calcul la tension à appliquer à un moteur pour qu'il tourne à une certaine vitesse}
 
 haltitudeBasse(courant dans les moteurs){true si le drone est proche du sol}
 
