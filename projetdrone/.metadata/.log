@@ -1,0 +1,18 @@
+!SESSION 2023-04-11 10:54:13.307 -----------------------------------------------
+eclipse.buildId=Version 1.11.2
+java.version=11.0.16
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=fr_FR
+Command-line arguments:  -os win32 -ws win32 -arch x86_64
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 4 4 2023-04-11 10:54:57.100
+!MESSAGE CubeMX plugin appears to be active, Log4j initialization might be too late.
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2023-04-11 10:54:57.366
+!MESSAGE Log4j initialized with config file C:\Users\fanni\Documents\2022-2023\S6\Projet\ProjetDroneENSEA2023\projetdrone\.metadata\.log4j.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2023-04-11 10:55:14.539
+!MESSAGE Started RMI Server, listening on port 41337
+
+!ENTRY org.eclipse.cdt.core 1 0 2023-04-11 11:31:12.554
+!MESSAGE Indexed 'projetdrone' (21 sources, 82 headers) in 40.3 sec: 5,325 declarations; 29,737 references; 0 unresolved inclusions; 1 syntax errors; 2 unresolved names (0.0057%)
