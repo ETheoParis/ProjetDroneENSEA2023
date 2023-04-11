@@ -491,3 +491,7 @@
 2023-04-11 11:54:41,674 [INFO] DmaTabbedPanel:202 - Cannot restore the selected Tab for DMA
 2023-04-11 11:54:44,284 [INFO] Gpio:272 - dependency for GPIO [I2C1, TIM1, USART2]
 2023-04-11 11:56:16,787 [INFO] UtilMem:74 - End SaveConfig() Used Memory: 475622440 Bytes (1012924416)
+2023-04-11 12:05:46,788 [INFO] JxBrowserEngine:114 - Initiate JxBrowser Engine with user profile folder
+2023-04-11 12:06:03,509 [INFO] WebAppUi:459 - Close the Jxbrowser engine manually
+2023-04-11 12:06:03,962 [INFO] WebAppUi:462 - Profiles folder deleted
+2023-04-11 12:06:11,100 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 
