@@ -57,6 +57,14 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+#define BTN_Start_Pin GPIO_PIN_15
+#define BTN_Start_GPIO_Port GPIOC
+#define LED_Start_Pin GPIO_PIN_15
+#define LED_Start_GPIO_Port GPIOA
+#define LED_stop_Pin GPIO_PIN_3
+#define LED_stop_GPIO_Port GPIOB
+#define LED_Status_Pin GPIO_PIN_4
+#define LED_Status_GPIO_Port GPIOB
 
 /* USER CODE BEGIN Private defines */
 
