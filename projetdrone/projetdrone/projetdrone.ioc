@@ -1,4 +1,5 @@
 #MicroXplorer Configuration settings - do not modify
+<<<<<<< HEAD
 ADC1.Channel-0\#ChannelRegularConversion=ADC_CHANNEL_6
 ADC1.CommonPathInternal=null|null|null|null
 ADC1.IPParameters=Rank-0\#ChannelRegularConversion,Channel-0\#ChannelRegularConversion,SamplingTime-0\#ChannelRegularConversion,OffsetNumber-0\#ChannelRegularConversion,NbrOfConversionFlag,master,CommonPathInternal
@@ -7,6 +8,15 @@ ADC1.OffsetNumber-0\#ChannelRegularConversion=ADC_OFFSET_NONE
 ADC1.Rank-0\#ChannelRegularConversion=1
 ADC1.SamplingTime-0\#ChannelRegularConversion=ADC_SAMPLETIME_2CYCLES_5
 ADC1.master=1
+=======
+ADC2.Channel-1\#ChannelRegularConversion=ADC_CHANNEL_16
+ADC2.CommonPathInternal=null|null|null|null
+ADC2.IPParameters=Rank-1\#ChannelRegularConversion,Channel-1\#ChannelRegularConversion,SamplingTime-1\#ChannelRegularConversion,OffsetNumber-1\#ChannelRegularConversion,NbrOfConversionFlag,CommonPathInternal
+ADC2.NbrOfConversionFlag=1
+ADC2.OffsetNumber-1\#ChannelRegularConversion=ADC_OFFSET_NONE
+ADC2.Rank-1\#ChannelRegularConversion=1
+ADC2.SamplingTime-1\#ChannelRegularConversion=ADC_SAMPLETIME_6CYCLES_5
+>>>>>>> 414add4c86ec5cba48a14ead4202e1cf348630f4
 CAD.formats=
 CAD.pinconfig=
 CAD.provider=
@@ -17,6 +27,7 @@ I2C1.Timing=0x10909CEC
 KeepUserPlacement=false
 Mcu.CPN=STM32L412KBT3
 Mcu.Family=STM32L4
+<<<<<<< HEAD
 Mcu.IP0=ADC1
 Mcu.IP1=I2C1
 Mcu.IP2=NVIC
@@ -44,11 +55,44 @@ Mcu.Pin7=PA8
 Mcu.Pin8=PA9
 Mcu.Pin9=PA10
 Mcu.PinsNb=17
+=======
+Mcu.IP0=ADC2
+Mcu.IP1=I2C1
+Mcu.IP2=NVIC
+Mcu.IP3=RCC
+Mcu.IP4=SYS
+Mcu.IP5=TIM1
+Mcu.IP6=USART2
+Mcu.IPNb=7
+Mcu.Name=STM32L412KBTx
+Mcu.Package=LQFP32
+Mcu.Pin0=PC15-OSC32_OUT (PC15)
+Mcu.Pin1=PA2
+Mcu.Pin10=PA11
+Mcu.Pin11=PA13 (JTMS/SWDIO)
+Mcu.Pin12=PA14 (JTCK/SWCLK)
+Mcu.Pin13=PA15 (JTDI)
+Mcu.Pin14=PB3 (JTDO/TRACESWO)
+Mcu.Pin15=PB4 (NJTRST)
+Mcu.Pin16=PB6
+Mcu.Pin17=PB7
+Mcu.Pin18=VP_SYS_VS_tim6
+Mcu.Pin19=VP_TIM1_VS_ClockSourceINT
+Mcu.Pin2=PA3
+Mcu.Pin3=PA6
+Mcu.Pin4=PA7
+Mcu.Pin5=PB0
+Mcu.Pin6=PB1
+Mcu.Pin7=PA8
+Mcu.Pin8=PA9
+Mcu.Pin9=PA10
+Mcu.PinsNb=20
+>>>>>>> 414add4c86ec5cba48a14ead4202e1cf348630f4
 Mcu.ThirdPartyNb=0
 Mcu.UserConstants=
 Mcu.UserName=STM32L412KBTx
-MxCube.Version=6.7.0
-MxDb.Version=DB.6.0.70
+MxCube.Version=6.8.0
+MxDb.Version=DB.6.0.80
 NVIC.BusFault_IRQn=true\:0\:0\:false\:false\:true\:false\:false\:false
 NVIC.DebugMonitor_IRQn=true\:0\:0\:false\:false\:true\:false\:false\:false
 NVIC.ForceEnableDMAVector=true
@@ -59,6 +103,9 @@ NVIC.PendSV_IRQn=true\:0\:0\:false\:false\:true\:false\:false\:false
 NVIC.PriorityGroup=NVIC_PRIORITYGROUP_4
 NVIC.SVCall_IRQn=true\:0\:0\:false\:false\:true\:false\:false\:false
 NVIC.SysTick_IRQn=true\:15\:0\:false\:false\:true\:false\:true\:false
+NVIC.TIM6_IRQn=true\:15\:0\:false\:false\:true\:false\:true\:true
+NVIC.TimeBase=TIM6_IRQn
+NVIC.TimeBaseIP=TIM6
 NVIC.UsageFault_IRQn=true\:0\:0\:false\:false\:true\:false\:false\:false
 PA0-CK_IN.GPIOParameters=GPIO_Label
 PA0-CK_IN.GPIO_Label=A01
@@ -72,12 +119,22 @@ PA10.Signal=S_TIM1_CH3
 PA11.GPIOParameters=GPIO_Label
 PA11.GPIO_Label=PWM_4
 PA11.Signal=S_TIM1_CH4
+<<<<<<< HEAD
 PA15\ (JTDI).GPIOParameters=GPIO_Label
 PA15\ (JTDI).GPIO_Label=LED_START
+=======
+PA13\ (JTMS/SWDIO).Mode=Serial_Wire
+PA13\ (JTMS/SWDIO).Signal=SYS_JTMS-SWDIO
+PA14\ (JTCK/SWCLK).Mode=Serial_Wire
+PA14\ (JTCK/SWCLK).Signal=SYS_JTCK-SWCLK
+PA15\ (JTDI).GPIOParameters=GPIO_Label
+PA15\ (JTDI).GPIO_Label=LED_Start
+>>>>>>> 414add4c86ec5cba48a14ead4202e1cf348630f4
 PA15\ (JTDI).Locked=true
 PA15\ (JTDI).Signal=GPIO_Output
 PA2.Mode=Asynchronous
 PA2.Signal=USART2_TX
+<<<<<<< HEAD
 PA3.Mode=Asynchronous
 PA3.Signal=USART2_RX
 PA4.GPIOParameters=GPIO_Label
@@ -90,29 +147,45 @@ PA7.Locked=true
 PA7.Signal=QUADSPI_BK1_IO2
 PA8.GPIOParameters=GPIO_Label
 PA8.GPIO_Label=PWM_1
+=======
+PA3.Locked=true
+PA3.Mode=Asynchronous
+PA3.Signal=USART2_RX
+PA6.Signal=ADCx_IN11
+PA7.Signal=ADCx_IN12
+>>>>>>> 414add4c86ec5cba48a14ead4202e1cf348630f4
 PA8.Signal=S_TIM1_CH1
 PA9.GPIOParameters=GPIO_Label
 PA9.GPIO_Label=PWM_2
 PA9.Signal=S_TIM1_CH2
+PB0.Signal=ADCx_IN15
+PB1.Signal=ADCx_IN16
 PB3\ (JTDO/TRACESWO).GPIOParameters=GPIO_Label
 PB3\ (JTDO/TRACESWO).GPIO_Label=LED_stop
 PB3\ (JTDO/TRACESWO).Locked=true
 PB3\ (JTDO/TRACESWO).Signal=GPIO_Output
 PB4\ (NJTRST).GPIOParameters=GPIO_Label
+<<<<<<< HEAD
 PB4\ (NJTRST).GPIO_Label=LED_status
+=======
+PB4\ (NJTRST).GPIO_Label=LED_Status
+>>>>>>> 414add4c86ec5cba48a14ead4202e1cf348630f4
 PB4\ (NJTRST).Locked=true
 PB4\ (NJTRST).Signal=GPIO_Output
 PB6.Mode=I2C
 PB6.Signal=I2C1_SCL
-PB7.Locked=true
 PB7.Mode=I2C
 PB7.Signal=I2C1_SDA
+PC15-OSC32_OUT\ (PC15).GPIOParameters=GPIO_Label
+PC15-OSC32_OUT\ (PC15).GPIO_Label=BTN_Start
+PC15-OSC32_OUT\ (PC15).Locked=true
+PC15-OSC32_OUT\ (PC15).Signal=GPXTI15
 PinOutPanel.RotationAngle=0
 ProjectManager.AskForMigrate=true
 ProjectManager.BackupPrevious=false
 ProjectManager.CompilerOptimize=6
 ProjectManager.ComputerToolchain=false
-ProjectManager.CoupleFile=false
+ProjectManager.CoupleFile=true
 ProjectManager.CustomerFirmwarePackage=
 ProjectManager.DefaultFWLocation=true
 ProjectManager.DeletePrevious=true
@@ -130,12 +203,13 @@ ProjectManager.PreviousToolchain=
 ProjectManager.ProjectBuild=false
 ProjectManager.ProjectFileName=projetdrone.ioc
 ProjectManager.ProjectName=projetdrone
+ProjectManager.ProjectStructure=
 ProjectManager.RegisterCallBack=
 ProjectManager.StackSize=0x400
 ProjectManager.TargetToolchain=STM32CubeIDE
 ProjectManager.ToolChainLocation=
 ProjectManager.UnderRoot=true
-ProjectManager.functionlistsort=1-SystemClock_Config-RCC-false-HAL-false,2-MX_GPIO_Init-GPIO-false-HAL-true,3-MX_TIM1_Init-TIM1-false-HAL-true,4-MX_I2C1_Init-I2C1-false-HAL-true,5-MX_USART2_Init-USART2-false-HAL-true
+ProjectManager.functionlistsort=1-SystemClock_Config-RCC-false-HAL-false,2-MX_GPIO_Init-GPIO-false-HAL-true,3-MX_TIM1_Init-TIM1-false-HAL-true,4-MX_I2C1_Init-I2C1-false-HAL-true,5-MX_USART2_UART_Init-USART2-false-HAL-true,6-MX_ADC2_Init-ADC2-false-HAL-true
 RCC.ADCFreq_Value=80000000
 RCC.AHBFreq_Value=80000000
 RCC.APB1Freq_Value=80000000
@@ -173,6 +247,7 @@ RCC.USART2Freq_Value=80000000
 RCC.USBFreq_Value=4000000
 RCC.VCOInputFreq_Value=4000000
 RCC.VCOOutputFreq_Value=160000000
+<<<<<<< HEAD
 SH.ADCx_IN11.0=ADC1_IN11,IN11-Single-Ended
 SH.ADCx_IN11.ConfNb=1
 SH.ADCx_IN5.0=ADC1_IN5,IN5-Single-Ended
@@ -181,6 +256,18 @@ SH.ADCx_IN6.0=ADC1_IN6,IN6-Single-Ended
 SH.ADCx_IN6.ConfNb=1
 SH.ADCx_IN9.0=ADC1_IN9,IN9-Single-Ended
 SH.ADCx_IN9.ConfNb=1
+=======
+SH.ADCx_IN11.0=ADC2_IN11,IN11-Single-Ended
+SH.ADCx_IN11.ConfNb=1
+SH.ADCx_IN12.0=ADC2_IN12,IN12-Single-Ended
+SH.ADCx_IN12.ConfNb=1
+SH.ADCx_IN15.0=ADC2_IN15,IN15-Single-Ended
+SH.ADCx_IN15.ConfNb=1
+SH.ADCx_IN16.0=ADC2_IN16,IN16-Single-Ended
+SH.ADCx_IN16.ConfNb=1
+SH.GPXTI15.0=GPIO_EXTI15
+SH.GPXTI15.ConfNb=1
+>>>>>>> 414add4c86ec5cba48a14ead4202e1cf348630f4
 SH.S_TIM1_CH1.0=TIM1_CH1,PWM Generation1 CH1
 SH.S_TIM1_CH1.ConfNb=1
 SH.S_TIM1_CH2.0=TIM1_CH2,PWM Generation2 CH2
@@ -189,9 +276,23 @@ SH.S_TIM1_CH3.0=TIM1_CH3,PWM Generation3 CH3
 SH.S_TIM1_CH3.ConfNb=1
 SH.S_TIM1_CH4.0=TIM1_CH4,PWM Generation4 CH4
 SH.S_TIM1_CH4.ConfNb=1
+<<<<<<< HEAD
 USART2.IPParameters=VirtualMode-Asynchronous
 USART2.VirtualMode-Asynchronous=VM_ASYNC
 VP_TIM1_VS_ControllerModeClock.Mode=Clock Mode
 VP_TIM1_VS_ControllerModeClock.Signal=TIM1_VS_ControllerModeClock
+=======
+TIM1.Channel-PWM\ Generation1\ CH1=TIM_CHANNEL_1
+TIM1.Channel-PWM\ Generation2\ CH2=TIM_CHANNEL_2
+TIM1.Channel-PWM\ Generation3\ CH3=TIM_CHANNEL_3
+TIM1.Channel-PWM\ Generation4\ CH4=TIM_CHANNEL_4
+TIM1.IPParameters=Channel-PWM Generation1 CH1,Channel-PWM Generation2 CH2,Channel-PWM Generation3 CH3,Channel-PWM Generation4 CH4
+USART2.IPParameters=VirtualMode-Asynchronous
+USART2.VirtualMode-Asynchronous=VM_ASYNC
+VP_SYS_VS_tim6.Mode=TIM6
+VP_SYS_VS_tim6.Signal=SYS_VS_tim6
+VP_TIM1_VS_ClockSourceINT.Mode=Internal
+VP_TIM1_VS_ClockSourceINT.Signal=TIM1_VS_ClockSourceINT
+>>>>>>> 414add4c86ec5cba48a14ead4202e1cf348630f4
 board=custom
 isbadioc=true
