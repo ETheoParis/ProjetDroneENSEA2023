@@ -466,6 +466,10 @@
       {
         "netclass": "Power",
         "pattern": "+5V"
+      },
+      {
+        "netclass": "Power",
+        "pattern": "+7.5V"
       }
     ]
   },
