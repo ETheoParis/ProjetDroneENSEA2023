@@ -1,0 +1,16 @@
+Question objectif de développement durable
+
+Quelle réflexion avez-vous mené au cours de ce projet autour de la limitation de la consommation d'énergie ?
+
+- En ce qui concerne la limitation de la consommation d'énergie, le drone a effectivement été dimensionné avec une batterie de capacité 3,7 Wh (avec une masse = 30g).
+La capacité a été choisie afin de permettre le respect du cahier des charges (vol sur 10m avec montée et descente) sans trop impacter l'autonomie (puisque la charge influe sur la vitesse de rotation des hélices pour maintenir le drone en vol).
+- En ce qui concerne la consommation d'énergie du drone, nous avons choisi un régulateur de tension : 17395xx36 avec une efficité maximale de 97% qui est bien plus pertinent dans le cas d'un drone avec un accumulateur de faible capacité qu'un régulateur linéaire / LDO qui présente une efficacité maximale moindre.
+- En ce qui concerne le choix du moteur :
+- sa consommation: celle-ci aura un impact sur l’autonomie de la batterie.
+- sa taille
+- sa puissance délivrée
+- sa vitesse : rpm(tr/min) = constante de vélocité * tension. Le rpm va influencer sur la stabilité du vol. Plus celui-ci est faible, plus le vol sera stable.
+Un choix pertinent s'est porté sur Moteurs Brossés Axe 1.0mm pour Quadricoptère Tiny 8X RC.
+
+Expliquer les critères de choix des composants de votre prjet (critères environnementaux, de disponibilité, d'emprise spatiale, autre).
+
