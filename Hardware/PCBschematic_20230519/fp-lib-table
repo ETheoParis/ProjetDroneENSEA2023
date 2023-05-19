@@ -1,0 +1,6 @@
+(fp_lib_table
+  (version 7)
+  (lib (name "2023-04-17_12-44-57")(type "KiCad")(uri "/home/nicolas/git/Student_Projects/2223_Projet1AB/ProjetDroneENSEA2023/Hardware/Footprints/ul_NCS199A3SQT2G/KiCAD/2023-04-17_12-44-57")(options "")(descr ""))
+  (lib (name "footprints")(type "KiCad")(uri "/home/nicolas/git/Student_Projects/2223_Projet1AB/ProjetDroneENSEA2023/Hardware/Footprints/ul_NCS199A3SQT2G/KiCAD/2023-04-17_12-44-57/footprints.pretty")(options "")(descr ""))
+  (lib (name "Library")(type "KiCad")(uri "C:/Users/fanni/Documents/2022-2023/S6/Projet/ProjetDroneENSEA2023/Hardware/Footprints/ul_NCS199A3SQT2G/Library.pretty")(options "")(descr ""))
+)
