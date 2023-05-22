@@ -1,7 +1,31 @@
-Question objectif de développement durable
+QUESTIONS OBJECTIFS DEVELOPPEMENT DURABLE:
 
-Quelle réflexion avez-vous mené au cours de ce projet autour de la limitation de la consommation d'énergie ?
+=> Quelle réflexion avez-vous mené au cours de ce projet autour de la limitation de la consommation d'énergie ?
+Notre drone a été modélisé tout en prenant en compte la limitation de la consommation d'énergie. Les critères pris en compte sont :
+-le choix des composants (développé dans la question suivante) doit favoriser l'économie d'énergie. (batterie avec bonne capacité et poids raisonnable)
 
+-la conception du drone (favorisation des matériaux légers pour la structure=> réduction du poids total=> travail plus efficace du moteur et aérodynamique du drone étudiée)
+
+-usage de technologies avancées (capteurs de mouvement et optimisation du code
+
+=>Expliquer les critères de choix des composants de votre projet (critères environnementaux, de disponibilité, d'emprise spatiale, autres).
+
+Le choix des composants est primordial lors de la réalisation d'un projet. Il existe plusieurs critères à prendre en considération:
+
+-Critères environnementaux : 
+
+
+-Critères de disponibilité : Il est nécessaire de privilégier les composants des fournisseurs les plus fiables (Farnell/RS/Mouser/Digikey/Gotronic...). 
+			     Chez ces derniers, le choix de matériel est largement plus important et des datasheets des composants y sont proposées.
+
+
+-Critères d'emprise spatiale : (taille et poids : les composants trop lourds peuvent avoir un impact négatif sur les caractéristiques de vol du drone)
+
+
+On peut également prendre en compte les critères suivants : le coût/les performances et la compatibilité avec d'autres composants du système. 
+
+=> Sources : 
+-Datasheets des composants 
 - En ce qui concerne la limitation de la consommation d'énergie, le drone a effectivement été dimensionné avec une batterie de capacité 3,7 Wh (avec une masse = 30g).
 La capacité a été choisie afin de permettre le respect du cahier des charges (vol sur 10m avec montée et descente) sans trop impacter l'autonomie (puisque la charge influe sur la vitesse de rotation des hélices pour maintenir le drone en vol).
 - En ce qui concerne la consommation d'énergie du drone, nous avons choisi un régulateur de tension : 17395xx36 avec une efficité maximale de 97% qui est bien plus pertinent dans le cas d'un drone avec un accumulateur de faible capacité qu'un régulateur linéaire / LDO qui présente une efficacité maximale moindre.
