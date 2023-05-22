@@ -19,10 +19,10 @@ Nous avons donc abouti au schématic suivant :
  
 
 
-II.2 Les codes informatique :
+II.2 Les codes informatiques :
 II.3 L’asservissement :
-
-
+Nous avons basé notre premier modèle sur le document State Space System Modelling of a Quad Copter UAV qui donnait une représentation d'état du système. Après avoir mis en forme les équations sur matlab on obtient un problème car le système possède 4 commande pour 6 sortie. On ne peut donc pas découpler les variables du système (cf cours d'assevissement).
+Nous avons donc changé de modèle pour se basé sur celui de la simulation quadcopter (par Djemai).
 
 
 
