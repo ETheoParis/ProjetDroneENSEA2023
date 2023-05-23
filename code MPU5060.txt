@@ -1,0 +1,88 @@
+#include "stm32fxxx.h"
+#include "stm32fxxx_i2c.h"
+
+#define MPU6050_ADDRESS 0x68
+
+I2C_InitTypeDef I2C_InitStruct;
+GPIO_InitTypeDef GPIO_InitStruct;
+
+void I2C_Configuration(void)
+{
+  // Activer l'horloge du bus I2C
+  RCC_APB1PeriphClockCmd(RCC_APB1Periph_I2C1, ENABLE);
+  
+  // Activer l'horloge du port GPIOB
+  RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOB, ENABLE);
+
+  // Configurer les pins PB6 et PB7 en mode alternatif (I2C)
+  GPIO_InitStruct.GPIO_Pin = GPIO_Pin_6 | GPIO_Pin_7;
+  GPIO_InitStruct.GPIO_Mode = GPIO_Mode_AF;
+  GPIO_InitStruct.GPIO_OType = GPIO_OType_OD;
+  GPIO_InitStruct.GPIO_Speed = GPIO_Speed_50MHz;
+  GPIO_InitStruct.GPIO_PuPd = GPIO_PuPd_UP;
+  GPIO_Init(GPIOB, &GPIO_InitStruct);
+
+  // Configurer les broches alternatives pour I2C1
+  GPIO_PinAFConfig(GPIOB, GPIO_PinSource6, GPIO_AF_I2C1);
+  GPIO_PinAFConfig(GPIOB, GPIO_PinSource7, GPIO_AF_I2C1);
+
+  // Configurer le bus I2C1
+  I2C_InitStruct.I2C_Mode = I2C_Mode_I2C;
+  I2C_InitStruct.I2C_DutyCycle = I2C_DutyCycle_2;
+  I2C_InitStruct.I2C_OwnAddress1 = 0x00;
+  I2C_InitStruct.I2C_Ack = I2C_Ack_Enable;
+  I2C_InitStruct.I2C_AcknowledgedAddress = I2C_AcknowledgedAddress_7bit;
+  I2C_InitStruct.I2C_ClockSpeed = 400000;
+  I2C_Init(I2C1, &I2C_InitStruct);
+
+  // Activer le bus I2C1
+  I2C_Cmd(I2C1, ENABLE);
+}
+
+void I2C_WriteByte(uint8_t deviceAddr, uint8_t regAddr, uint8_t data)
+{
+  // Attendre la fin de la communication précédente
+  while (I2C_GetFlagStatus(I2C1, I2C_FLAG_BUSY));
+
+  // Générer un START condition
+  I2C_GenerateSTART(I2C1, ENABLE);
+
+  // Attendre que le START condition soit envoyé
+  while (!I2C_CheckEvent(I2C1, I2C_EVENT_MASTER_MODE_SELECT));
+
+  // Envoyer l'adresse du périphérique et le bit d'écriture
+  I2C_Send7bitAddress(I2C1, deviceAddr, I2C_Direction_Transmitter);
+
+  // Attendre que l'adresse soit envoyée
+  while (!I2C_CheckEvent(I2C1, I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED));
+
+  // Envoyer le registre à écrire
+  I2C_SendData(I2C1, regAddr);
+
+  // Attendre la fin de l'envoi du registre
+  while (!I2C_CheckEvent(I2C1, I2C_EVENT_MASTER_BYTE_TRANSMITTED));
+
+  // Env
+
+
+void I2C_WriteByte(uint8_t regAddr, uint8_t data)
+{
+  uint8_t deviceAddr = 0x68; // Adresse de la MPU6050
+  
+  // ...
+  // Code précédent pour envoyer l'adresse du registre
+  // ...
+  
+  // Envoyer la donnée au registre spécifié
+  I2C_SendData(I2C1, data);
+
+  // Attendre la fin de l'envoi de la donnée
+  while (!I2C_CheckEvent(I2C1, I2C_EVENT_MASTER_BYTE_TRANSMITTED));
+
+  // Générer un STOP condition
+  I2C_GenerateSTOP(I2C1, ENABLE);
+  
+  // ...
+  // Suite du code
+  // ...
+}
