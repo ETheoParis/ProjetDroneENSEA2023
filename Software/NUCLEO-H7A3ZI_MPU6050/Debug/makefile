@@ -60,8 +60,8 @@ all: main-build
 main-build: NUCLEO-H7A3ZI_MPU6050.elf secondary-outputs
 
 # Tool invocations
-NUCLEO-H7A3ZI_MPU6050.elf NUCLEO-H7A3ZI_MPU6050.map: $(OBJS) $(USER_OBJS) /home/nicolas/project/ProjetDroneENSEA2023/Software/NUCLEO-H7A3ZI_MPU6050/STM32H7A3ZITXQ_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "NUCLEO-H7A3ZI_MPU6050.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m7 -T"/home/nicolas/project/ProjetDroneENSEA2023/Software/NUCLEO-H7A3ZI_MPU6050/STM32H7A3ZITXQ_FLASH.ld" --specs=nosys.specs -Wl,-Map="NUCLEO-H7A3ZI_MPU6050.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -u _printf_float -Wl,--start-group -lc -lm -Wl,--end-group
+NUCLEO-H7A3ZI_MPU6050.elf NUCLEO-H7A3ZI_MPU6050.map: $(OBJS) $(USER_OBJS) C:\Users\jack0\Documents\ENSEA\ProjetDroneENSEA2023\Software\NUCLEO-H7A3ZI_MPU6050\STM32H7A3ZITXQ_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "NUCLEO-H7A3ZI_MPU6050.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m7 -T"C:\Users\jack0\Documents\ENSEA\ProjetDroneENSEA2023\Software\NUCLEO-H7A3ZI_MPU6050\STM32H7A3ZITXQ_FLASH.ld" --specs=nosys.specs -Wl,-Map="NUCLEO-H7A3ZI_MPU6050.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -u _printf_float -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

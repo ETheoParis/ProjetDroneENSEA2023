@@ -110,8 +110,21 @@ int main(void)
 	MX_USB_OTG_HS_USB_Init();
 	MX_I2C1_Init();
 	MX_TIM7_Init();
+	MX_TIM1_Init();
+	MX_TIM2_Init();
 	/* USER CODE BEGIN 2 */
+
+
 	HAL_TIM_Base_Start_IT(&htim7);
+
+	// HAL_I2C_Mem_Read();
+	float tension1=0;
+	float tension2=0;
+	float tension3=0;
+	float tension4=0;
+	HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
+
+	//  __HAL_TIM_SET_COMPARE(&htim1,TIM_CHANNEL_1, valeur);
 
 	//Init MPU6050
 	HAL_I2C_Mem_Read(&hi2c1, MPU6050_ADDR, WHO_AM_I_REG, 1, &check, 1, 1000);
@@ -161,7 +174,7 @@ int main(void)
 			sizeStr = snprintf(uartTxBuffer, UARTTXSIZE, "X=%1.3f, Y=%1.3f, Z=%1.3f\r\n",x,y,z);
 			HAL_UART_Transmit(&huart3, uartTxBuffer, sizeStr, 100);
 
-			uint8_t Rec_Data[6];
+			uint8_t Rec_Data2[6];
 			int16_t Accel_PHI_RAW = 0;
 			int16_t Accel_THETA_RAW = 0;
 			int16_t Accel_PSI_RAW = 0;
@@ -171,9 +184,9 @@ int main(void)
 			Accel_THETA_RAW = (int16_t)(Rec_Data[2] << 8 | Rec_Data [3]);
 			Accel_PSI_RAW = (int16_t)(Rec_Data[4] << 8 | Rec_Data [5]);
 
-			PHI = Accel_PHI_RAW/16384.0;
-			THETA = Accel_THETA_RAW/16384.0;
-			PSI = Accel_PSI_RAW/16384.0;
+			float PHI = Accel_PHI_RAW/16384.0;
+			float THETA = Accel_THETA_RAW/16384.0;
+			float PSI = Accel_PSI_RAW/16384.0;
 
 			sizeStr = snprintf(uartTxBuffer, UARTTXSIZE, "PHI=%1.3f, THETA=%1.3f, PSI=%1.3f\r\n",PHI,THETA,PSI);
 			HAL_UART_Transmit(&huart3, uartTxBuffer, sizeStr, 100);
