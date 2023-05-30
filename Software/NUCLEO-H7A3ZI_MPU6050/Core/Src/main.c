@@ -147,46 +147,8 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-	while (1)
-	{
-		if(timFlagIt){
-			uint8_t Rec_Data[6];
-			int16_t Accel_X_RAW = 0;
-			int16_t Accel_Y_RAW = 0;
-			int16_t Accel_Z_RAW = 0;
-			HAL_I2C_Mem_Read (&hi2c1, MPU6050_ADDR, ACCEL_XOUT_H_REG, 1, Rec_Data, 6, 1000);
-
-			Accel_X_RAW = (int16_t)(Rec_Data[0] << 8 | Rec_Data [1]);
-			Accel_Y_RAW = (int16_t)(Rec_Data[2] << 8 | Rec_Data [3]);
-			Accel_Z_RAW = (int16_t)(Rec_Data[4] << 8 | Rec_Data [5]);
-
-			x = Accel_X_RAW/16384.0;
-			y = Accel_Y_RAW/16384.0;
-			z = Accel_Z_RAW/16384.0;
-
-
-			sizeStr = snprintf(uartTxBuffer, UARTTXSIZE, "X=%1.3f, Y=%1.3f, Z=%1.3f\r\n",x,y,z);
-			HAL_UART_Transmit(&huart3, uartTxBuffer, sizeStr, 100);
-
-			uint8_t Rec_Data2[6];
-			int16_t Accel_PHI_RAW = 0;
-			int16_t Accel_THETA_RAW = 0;
-			int16_t Accel_PSI_RAW = 0;
-			HAL_I2C_Mem_Read (&hi2c1, MPU6050_ADDR, GYRO_XOUT_H_REG, 1, Rec_Data, 6, 1000);
-
-			Accel_PHI_RAW = (int16_t)(Rec_Data[0] << 8 | Rec_Data [1]);
-			Accel_THETA_RAW = (int16_t)(Rec_Data[2] << 8 | Rec_Data [3]);
-			Accel_PSI_RAW = (int16_t)(Rec_Data[4] << 8 | Rec_Data [5]);
-
-			float PHI = Accel_PHI_RAW/16384.0;
-			float THETA = Accel_THETA_RAW/16384.0;
-			float PSI = Accel_PSI_RAW/16384.0;
-
-			sizeStr = snprintf(uartTxBuffer, UARTTXSIZE, "PHI=%1.3f, THETA=%1.3f, PSI=%1.3f\r\n",PHI,THETA,PSI);
-			HAL_UART_Transmit(&huart3, uartTxBuffer, sizeStr, 100);
-
-			timFlagIt = 0;
-		}
+  while (1)
+  {
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
