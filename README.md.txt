@@ -62,6 +62,7 @@ III. 2 Modélisation :
 
 On commence par effectuer une représentation d'état du système. On se base sur l'article (2) qui permet de modéliser notre drone de la façon suivante : 
 
+![Drag Racing](C:\Users\NESRINE\Documents\ProjetDroneENSEA2023\Images)
 
  
 
