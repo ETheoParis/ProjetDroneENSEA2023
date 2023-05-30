@@ -6,12 +6,12 @@ I. Introduction :
 	Que ce soit pour la surveillance de territoires, l'inspection de bâtiments, la cartographie de zones difficiles d'accès ou encore la livraison de colis, les drones sont devenus indispensables pour de nombreuses entreprises. Il s’agit de petits avions télécommandés utilisés pour des tâches diverses. (Larousse)
 
 	Notre objectif est d’asservir et de concevoir le PCB d’un drone quadcoptère dont la structure nous a été fournie. Nous veillerons à respecter le cahier des charges suivant : 
-- Véhicule autonome
-- Processeur sur carte-mère
-- Pas de contrôle à distance  
-- Code embarqué : C sur STM32
-- Avancer, décoller
-- Avancer "droit" puis de 10 m.
+-Véhicule autonome
+-Processeur sur carte-mère
+-Pas de contrôle à distance  
+-Code embarqué : C sur STM32
+-Avancer, décoller
+-Avancer "droit" puis de 10 m.
 
 ____________________________________________________________________________________________________________________________________________________________
 
