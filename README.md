@@ -51,12 +51,24 @@ II.1 Le PCB :
 Afin de réaliser le PCB, nous avons commencé par faire le schématique. 
 Nous avons tout d’abord rassemblé toutes les datasheets et nous avons dessiné un diagramme pour visualiser le placement des composants (Cf figure.1 ) ainsi que le nombre de composants nécessaires pour concevoir le PCB. Par la suite, nous avons regardé les schémas présents dans les datasheets pour connaitre la valeurs des résistances et des condensateurs à placer autour du régulateur et des blocs moteurs. Nous nous sommes également aidés du TD concernant Kicad pour trouver les valeurs des résistances à placer autour de la carte stm32. 
 
+          
 ![diagramme hardware](https://github.com/ETheoParis/ProjetDroneENSEA2023/blob/main/Images/diagramme%20hard.JPG)
+
+
+
+
 Figure 1: Diagramme qui représente les différents éléments électroniques utilisés 
 
 
 
 Nous avons donc abouti au schématique suivant :
+
+
+
+
+![⁪schématique1](https://github.com/ETheoParis/ProjetDroneENSEA2023/blob/main/Images/diagramme_partie1.JPG)
+
+
 
 
 	Figure 2.a : Première partie du schématique du projet
@@ -65,7 +77,7 @@ Nous avons donc abouti au schématique suivant :
 
 
 
-
+[diagramme partie2](https://github.com/ETheoParis/ProjetDroneENSEA2023/blob/main/Images/diagramme_partie2.JPG)
 
 
 Figure 2.b : Deuxième partie du schématique du projet (les moteurs)
@@ -92,7 +104,7 @@ Les empreintes des condensateurs en fonction de leurs valeurs.
 Par la suite, nous avons placé les composants sur l’éditeur PCB. Il a fallu faire en sorte que la taille et la forme du PCB soient adaptées à l’emplacement prévu sur la base du drone imprimée en 3D. 
 
 
-
+[editor PCB](https://github.com/ETheoParis/ProjetDroneENSEA2023/blob/main/Images/PCB_editor.JPG)
 
 Figure 2.b : PCB 
 
@@ -122,7 +134,7 @@ Enfin, nous avons soudé les composants sur le PCB :
 
 
 
-
+[PCB soude](https://github.com/ETheoParis/ProjetDroneENSEA2023/blob/main/Images/PCBsoude.JPG)
 
 
 
