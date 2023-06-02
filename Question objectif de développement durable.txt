@@ -1,7 +1,9 @@
 QUESTIONS OBJECTIFS DEVELOPPEMENT DURABLE:
 _____________________________________________________________________________________________________________________________________
 => Quelle réflexion avez-vous mené au cours de ce projet autour de la limitation de la consommation d'énergie ?
+
 Notre drone a été modélisé tout en prenant en compte la limitation de la consommation d'énergie. Les critères pris en compte sont :
+
 -le choix des composants (développé dans la question suivante) qui doit favoriser l'économie d'énergie. (batterie avec bonne capacité et poids raisonnable)
 
 -la conception du drone (favorisation des matériaux légers pour la structure=> réduction du poids total=> travail plus efficace du moteur et aérodynamique du drone étudiée)
@@ -24,15 +26,15 @@ Le choix des composants est primordial lors de la réalisation d'un projet. Il e
 On peut également prendre en compte les critères suivants : le coût/les performances et la compatibilité avec d'autres composants du système. 
 
 Concentrons-nous désormais sur chaque composant : 
-- Batterie : On a choisi une batterie de capacité 3,7 Wh avec une masse = 30g afin de respecter les critères d'emprise spatiale.La capacité a été choisie afin de permettre le respect du cahier des charges (vol sur 10m avec montée et descente) sans trop impacter l'autonomie (puisque la charge influe sur la vitesse de rotation des hélices pour maintenir le drone en vol).
+- Batterie : Nous avons choisi une batterie de capacité 3,7 Wh avec une masse = 30g afin de respecter les critères d'emprise spatiale.La capacité a été choisie afin de permettre le respect du cahier des charges (vol sur 10m avec montée et descente) sans trop impacter l'autonomie (puisque la charge influe sur la vitesse de rotation des hélices pour maintenir le drone en vol).
 
 -Régulateur de tension (17395xx36): Notre choix de composant présente une efficité maximale de 97%. Cela est bien plus pertinent dans le cas d'un drone avec un accumulateur de faible capacité qu'un régulateur linéaire/LDO qui présente une efficacité maximale moindre.
 
--Moteur: Les critères pris en compte sont principalement la consommation, la taille, la puissance délivrée, la vitesse (rpm(tr/min) = constante de vélocité * tension. Le rpm va influencer sur la stabilité du vol. Plus celui-ci est faible, plus le vol sera stable). Un choix pertinent s'est porté sur Moteurs Brossés Axe 1.0mm pour Quadricoptère Tiny 8X RC.
+-Moteur: Les critères pris en compte sont principalement la consommation, la taille, la puissance délivrée, le poids et la vitesse (rpm(tr/min) = constante de vélocité * tension. Le rpm va influencer sur la stabilité du vol. Plus celui-ci est faible, plus le vol sera stable). Notre choix s'est porté sur Moteurs Brossés Axe 1.0mm pour Quadricoptère Tiny 8X RC.
 
--Hélices: On prend en considération leurs longueurs, leurs pas ainsi que leurs compositions (matériaux).
+-Hélices: Nous prenons en considération leurs longueurs, leurs pas ainsi que leurs compositions (matériaux).
 
--Châssis: On en choisit un qui est en PLA, acide polylactique et qui est en plastique biodégradable et recyclable. 
+-Châssis: Nous utilisons un châssis qui est en PLA, acide polylactique et qui est en plastique biodégradable et recyclable. 
 _____________________________________________________________________________________________________________________________________
 => Sources : 
 -Datasheets des composants 
