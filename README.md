@@ -77,7 +77,7 @@ Nous avons donc abouti au schématique suivant :
 
 
 
-[diagramme partie2](https://github.com/ETheoParis/ProjetDroneENSEA2023/blob/main/Images/diagramme_partie2.JPG)
+![diagramme partie2](https://github.com/ETheoParis/ProjetDroneENSEA2023/blob/main/Images/diagramme_partie2.JPG)
 
 
 Figure 2.b : Deuxième partie du schématique du projet (les moteurs)
@@ -104,7 +104,7 @@ Les empreintes des condensateurs en fonction de leurs valeurs.
 Par la suite, nous avons placé les composants sur l’éditeur PCB. Il a fallu faire en sorte que la taille et la forme du PCB soient adaptées à l’emplacement prévu sur la base du drone imprimée en 3D. 
 
 
-[editor PCB](https://github.com/ETheoParis/ProjetDroneENSEA2023/blob/main/Images/PCB_editor.JPG)
+![editor PCB](https://github.com/ETheoParis/ProjetDroneENSEA2023/blob/main/Images/PCB_editor.JPG)
 
 Figure 2.b : PCB 
 
@@ -134,7 +134,7 @@ Enfin, nous avons soudé les composants sur le PCB :
 
 
 
-[PCB soude](https://github.com/ETheoParis/ProjetDroneENSEA2023/blob/main/Images/PCBsoude.JPG)
+![PCB soude](https://github.com/ETheoParis/ProjetDroneENSEA2023/blob/main/Images/PCBsoude.JPG)
 
 
 
