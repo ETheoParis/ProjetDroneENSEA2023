@@ -51,7 +51,7 @@ II.1 Le PCB :
 Afin de réaliser le PCB, nous avons commencé par faire le schématique. 
 Nous avons tout d’abord rassemblé toutes les datasheets et nous avons dessiné un diagramme pour visualiser le placement des composants (Cf figure.1 ) ainsi que le nombre de composants nécessaires pour concevoir le PCB. Par la suite, nous avons regardé les schémas présents dans les datasheets pour connaitre la valeurs des résistances et des condensateurs à placer autour du régulateur et des blocs moteurs. Nous nous sommes également aidés du TD concernant Kicad pour trouver les valeurs des résistances à placer autour de la carte stm32. 
 
-
+![diagramme hardware](https://github.com/ETheoParis/ProjetDroneENSEA2023/blob/main/Images/diagramme%20hard.JPG)
 Figure 1: Diagramme qui représente les différents éléments électroniques utilisés 
 
 
