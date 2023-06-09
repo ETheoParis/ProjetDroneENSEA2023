@@ -216,13 +216,16 @@ La méthode PWM consiste à faire varier le rapport cyclique à une fréquence f
 
 
 
-![PWM] (https://github.com/ETheoParis/ProjetDroneENSEA2023/blob/main/Images/PWM.png)
+![PWM] 
+
+(https://github.com/ETheoParis/ProjetDroneENSEA2023/blob/main/Images/PWM.png)
 
 Figure 4 : PWM Fonctionnement
 
 
 
-![PWM_Diagramme] (https://github.com/ETheoParis/ProjetDroneENSEA2023/blob/main/Images/PWM_Diagramme.png)
+![PWM_Diagramme] 
+(https://github.com/ETheoParis/ProjetDroneENSEA2023/blob/main/Images/PWM_Diagramme.png)
 
 Figure 5 : Diagramme PWM 
 
@@ -232,10 +235,14 @@ Dans le cas de notre test sur NUCLEO, nous avons configuré un timer via l'inter
 Nous avons alors ajouté un PSC (prescaler) "4-1" et un rapport de division ARR (auto reload register) de "1000-1" afin d'obtenir une fréquence d'horloge d'étude de 20kHz.
 
 
-![PWM_Config1] (https://github.com/ETheoParis/ProjetDroneENSEA2023/blob/main/Images/PWM_Config1.png)
+![PWM_Config1]
+
+(https://github.com/ETheoParis/ProjetDroneENSEA2023/blob/main/Images/PWM_Config1.png)
 
 
-![PWM_Config] (https://github.com/ETheoParis/ProjetDroneENSEA2023/blob/main/Images/PWM_Config.png)
+![PWM_Config]
+
+(https://github.com/ETheoParis/ProjetDroneENSEA2023/blob/main/Images/PWM_Config.png)
 
 
 Figure 6 & 7 : Configuration Timer pour PWM 
@@ -250,6 +257,7 @@ Dans le cas de notre code, nous avons testé avec sortie sur l'oscilloscope la P
 
 
 ![PWM_Osciloscope]
+
 (https://github.com/ETheoParis/ProjetDroneENSEA2023/blob/main/Images/PWM_Osciloscope.png)
 
 Figure 3 : PCB soudé 
