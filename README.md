@@ -176,7 +176,7 @@ l’accélération angulaire selon psi
 Nous avons basé notre premier modèle sur le document State Space System Modelling of a Quadcopter UAV qui donnait une représentation d'état du système.
 
 Représentation d’état du système
-![ASSERVISSEMENT Représentation d'état](Images/ASSERVISSEMENT Représentation d'état.png)
+![image](https://github.com/ETheoParis/ProjetDroneENSEA2023/blob/main/Images/ASSERVISSEMENT%20Repr%C3%A9sentation%20d'%C3%A9tat.png)
 
 Après avoir mis en forme les équations sur Matlab et défini les paramètres de l’étude, on détermine les indices relatifs en cherchant CA^rho-1 ≠ 0. 
 On obtient les résultats suivants : 
@@ -316,7 +316,8 @@ Concentrons-nous désormais sur chaque composant :
 
 -Châssis: Nous utilisons un châssis qui est en PLA, acide polylactique et qui est en plastique biodégradable et recyclable. 
 _____________________________________________________________________________________________________________________________________
-=> Sources : 
+=> Sources :
+
 -Datasheets des composants 
 -https://www.pilgrim-technology.com/drones-et-environnement/
 
