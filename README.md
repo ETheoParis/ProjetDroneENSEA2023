@@ -180,7 +180,7 @@ Représentation d’état du système
 
 Après avoir mis en forme les équations sur Matlab et défini les paramètres de l’étude, on détermine les indices relatifs en cherchant CA^rho-1 ≠ 0. 
 On obtient les résultats suivants : 
-
+![image](https://github.com/ETheoParis/ProjetDroneENSEA2023/blob/main/Images/rho.png)
 
 On doit donc calculer les rho de chaque ligne.
 Avec matlab on trouve les différent rho tel que la matrice soit inversible. Pour cela il suffit que au moins 1 des coefficient de la ligne soit non nul.
@@ -217,14 +217,14 @@ La méthode PWM consiste à faire varier le rapport cyclique à une fréquence f
 
 
 
-![PWM] 
+![image] 
 (https://github.com/ETheoParis/ProjetDroneENSEA2023/blob/main/Images/PWM.png)
 
 Figure 4 : PWM Fonctionnement
 
 
 
-![PWM_Diagramme] 
+![image] 
 (https://github.com/ETheoParis/ProjetDroneENSEA2023/blob/main/Images/PWM_Diagramme.png)
 
 Figure 5 : Diagramme PWM 
@@ -235,11 +235,11 @@ Dans le cas de notre test sur NUCLEO, nous avons configuré un timer via l'inter
 Nous avons alors ajouté un PSC (prescaler) "4-1" et un rapport de division ARR (auto reload register) de "1000-1" afin d'obtenir une fréquence d'horloge d'étude de 20kHz.
 
 
-![PWM_Config1]
+![image]
 (https://github.com/ETheoParis/ProjetDroneENSEA2023/blob/main/Images/PWM_Config1.png)
 
 
-![PWM_Config]
+![image]
 (https://github.com/ETheoParis/ProjetDroneENSEA2023/blob/main/Images/PWM_Config.png)
 
 
@@ -254,7 +254,7 @@ En ce qui concerne le fonctionnement, on doit alors déterminer une valeur de co
 Dans le cas de notre code, nous avons testé avec sortie sur l'oscilloscope la PWM pour différentes valeurs de CCR choisie (200, 400, 800).
 
 
-![PWM_Oscilloscope]
+![image]
 (https://github.com/ETheoParis/ProjetDroneENSEA2023/blob/main/Images/PWM_Oscilloscope.png)
 
 Figure 8 : Test PWM sur oscilloscope
