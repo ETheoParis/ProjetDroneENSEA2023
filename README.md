@@ -182,7 +182,7 @@ Nous avons donc changé de modèle pour se baser sur celui de la simulation quad
 =======
 
 __________________________________________________________________________________________________
-____________________________________________________________________________________________________________________________________________________________  
+
 III. 3 Nouvelle modélisation : 
 On se base sur une nouvelle modélisation qui nous donne directement l'équation des couples et de la somme des forces des moteurs en fonction des accélérations. 
 Il faudrait trouver un moyen de déterminer les fonctions seuil et les constants réstantes. On sait déja que mu est la force minimum des moteurs pour faire décoler de drone. Avec plus de temps il aurait surment été possible de faire fonctionner l'asservissement.
@@ -204,6 +204,48 @@ Pour la récupération des données de la centrale inertielle on utilise HAL_TIM
 
 
 
- 
- 
+ ____________________________________________________________________________________________________________________________________________________________
+
+
+QUESTIONS OBJECTIFS DEVELOPPEMENT DURABLE:
+_____________________________________________________________________________________________________________________________________
+=> Quelle réflexion avez-vous mené au cours de ce projet autour de la limitation de la consommation d'énergie ?
+
+Notre drone a été modélisé tout en prenant en compte la limitation de la consommation d'énergie. Les critères pris en compte sont :
+
+-le choix des composants (développé dans la question suivante) qui doit favoriser l'économie d'énergie. (batterie avec bonne capacité et poids raisonnable)
+
+-la conception du drone (favorisation des matériaux légers pour la structure=> réduction du poids total=> travail plus efficace du moteur et aérodynamique du drone étudiée)
+
+-usage de technologies avancées (capteurs de mouvement et optimisation du code)
+_____________________________________________________________________________________________________________________________________
+=>Expliquer les critères de choix des composants de votre projet (critères environnementaux, de disponibilité, d'emprise spatiale, autres).
+
+Le choix des composants est primordial lors de la réalisation d'un projet. Il existe plusieurs critères à prendre en considération:
+
+-Critères environnementaux : 
+
+
+-Critères de disponibilité : Il est nécessaire de privilégier les composants des fournisseurs les plus fiables (Farnell/RS/Mouser/Digikey/Gotronic...). Chez ces derniers, le choix de matériel est largement plus important et des datasheets des composants y sont proposées.
+
+
+-Critères d'emprise spatiale : (taille et poids : les composants trop lourds peuvent avoir un impact négatif sur les caractéristiques de vol du drone)
+
+
+On peut également prendre en compte les critères suivants : le coût/les performances et la compatibilité avec d'autres composants du système. 
+
+Concentrons-nous désormais sur chaque composant : 
+- Batterie : Nous avons choisi une batterie de capacité 3,7 Wh avec une masse = 30g afin de respecter les critères d'emprise spatiale.La capacité a été choisie afin de permettre le respect du cahier des charges (vol sur 10m avec montée et descente) sans trop impacter l'autonomie (puisque la charge influe sur la vitesse de rotation des hélices pour maintenir le drone en vol).
+
+-Régulateur de tension (17395xx36): Notre choix de composant présente une efficité maximale de 97%. Cela est bien plus pertinent dans le cas d'un drone avec un accumulateur de faible capacité qu'un régulateur linéaire/LDO qui présente une efficacité maximale moindre.
+
+-Moteur: Les critères pris en compte sont principalement la consommation, la taille, la puissance délivrée, le poids et la vitesse (rpm(tr/min) = constante de vélocité * tension. Le rpm va influencer sur la stabilité du vol. Plus celui-ci est faible, plus le vol sera stable). Notre choix s'est porté sur Moteurs Brossés Axe 1.0mm pour Quadricoptère Tiny 8X RC.
+
+-Hélices: Nous prenons en considération leurs longueurs, leurs pas ainsi que leurs compositions (matériaux).
+
+-Châssis: Nous utilisons un châssis qui est en PLA, acide polylactique et qui est en plastique biodégradable et recyclable. 
+_____________________________________________________________________________________________________________________________________
+=> Sources : 
+-Datasheets des composants 
+-https://www.pilgrim-technology.com/drones-et-environnement/
 
