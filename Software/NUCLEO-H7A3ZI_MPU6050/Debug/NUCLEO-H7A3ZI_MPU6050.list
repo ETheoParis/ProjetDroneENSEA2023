@@ -31,15 +31,15 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING, OCTETS
  13 .debug_ranges 000012d8  00000000  00000000  0003fb90  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 14 .debug_macro  0003238b  00000000  00000000  00040e68  2**0
+ 14 .debug_macro  00030c7d  00000000  00000000  00040e68  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 15 .debug_line   0001b8e0  00000000  00000000  000731f3  2**0
+ 15 .debug_line   0001b8e0  00000000  00000000  00071ae5  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 16 .debug_str    00141d25  00000000  00000000  0008ead3  2**0
+ 16 .debug_str    00141d25  00000000  00000000  0008d3c5  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .comment      00000050  00000000  00000000  001d07f8  2**0
+ 17 .comment      00000050  00000000  00000000  001cf0ea  2**0
                   CONTENTS, READONLY
- 18 .debug_frame  00006478  00000000  00000000  001d0848  2**2
+ 18 .debug_frame  00006478  00000000  00000000  001cf13c  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -955,17 +955,17 @@ int main(void)
  8000a3a:	f000 fd33 	bl	80014a4 <MX_USART3_UART_Init>
 	MX_USB_OTG_HS_USB_Init();
  8000a3e:	f000 fde7 	bl	8001610 <MX_USB_OTG_HS_USB_Init>
-	MX_I2C1_Init();
+	MX_I2C1_Init();						 //I2C port used here to communicate (and especially read) information received by
  8000a42:	f7ff ff49 	bl	80008d8 <MX_I2C1_Init>
-	MX_TIM7_Init();
+	MX_TIM7_Init();                      //Timer defined to just have a acceptable clock to display on Putty (for Windows) the X,Y,Z acceleration and angular velocity.
  8000a46:	f000 fc79 	bl	800133c <MX_TIM7_Init>
-	MX_TIM1_Init();
+	MX_TIM1_Init();						 //Timer used here to set a PWM for controlling the motors.
  8000a4a:	f000 fba7 	bl	800119c <MX_TIM1_Init>
 	/* USER CODE BEGIN 2 */
 	HAL_TIM_Base_Start_IT(&htim7);
  8000a4e:	48b8      	ldr	r0, [pc, #736]	; (8000d30 <main+0x308>)
  8000a50:	f004 fdf4 	bl	800563c <HAL_TIM_Base_Start_IT>
-	HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
+	HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1); //Start the PWM we wanted for each motor.
  8000a54:	2100      	movs	r1, #0
  8000a56:	48b7      	ldr	r0, [pc, #732]	; (8000d34 <main+0x30c>)
  8000a58:	f004 feca 	bl	80057f0 <HAL_TIM_PWM_Start>
@@ -981,7 +981,7 @@ int main(void)
  8000a6c:	210c      	movs	r1, #12
  8000a6e:	48b1      	ldr	r0, [pc, #708]	; (8000d34 <main+0x30c>)
  8000a70:	f004 febe 	bl	80057f0 <HAL_TIM_PWM_Start>
-	__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, 800);
+	__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, 800); //Function already implemented in HAL library and allows to compare to a variable CCR (here 800, choosed by myself) and get the exact duty cycle we wanted.
  8000a74:	4baf      	ldr	r3, [pc, #700]	; (8000d34 <main+0x30c>)
  8000a76:	681b      	ldr	r3, [r3, #0]
  8000a78:	f44f 7248 	mov.w	r2, #800	; 0x320
@@ -1001,7 +1001,7 @@ int main(void)
  8000a94:	681b      	ldr	r3, [r3, #0]
  8000a96:	22c8      	movs	r2, #200	; 0xc8
  8000a98:	641a      	str	r2, [r3, #64]	; 0x40
-	//	TIM1->CCR1 =
+
 	//Init MPU6050
 	HAL_I2C_Mem_Read(&hi2c1, MPU6050_ADDR, WHO_AM_I_REG, 1, &check, 1, 1000);
  8000a9a:	f44f 737a 	mov.w	r3, #1000	; 0x3e8
@@ -1015,7 +1015,7 @@ int main(void)
  8000aac:	21d0      	movs	r1, #208	; 0xd0
  8000aae:	48a3      	ldr	r0, [pc, #652]	; (8000d3c <main+0x314>)
  8000ab0:	f001 fb0a 	bl	80020c8 <HAL_I2C_Mem_Read>
-	if (check == 0x68)  // 0x68 will be returned by the sensor if everything goes well
+	if (check == 0x68)  // 0x68 will be returned by the sensor if everything goes well according to the DataSheet
  8000ab4:	4ba0      	ldr	r3, [pc, #640]	; (8000d38 <main+0x310>)
  8000ab6:	781b      	ldrb	r3, [r3, #0]
  8000ab8:	2b68      	cmp	r3, #104	; 0x68
@@ -1111,7 +1111,7 @@ int main(void)
 			int16_t Accel_Z_RAW = 0;
  8000b44:	2300      	movs	r3, #0
  8000b46:	837b      	strh	r3, [r7, #26]
-			HAL_I2C_Mem_Read (&hi2c1, MPU6050_ADDR, ACCEL_XOUT_H_REG, 1, Rec_Data, 6, 1000);
+			HAL_I2C_Mem_Read (&hi2c1, MPU6050_ADDR, ACCEL_XOUT_H_REG, 1, Rec_Data, 6, 1000); //We use HAL library to read 6 bytes data using I2C communication
  8000b48:	f44f 737a 	mov.w	r3, #1000	; 0x3e8
  8000b4c:	9302      	str	r3, [sp, #8]
  8000b4e:	2306      	movs	r3, #6
@@ -1124,7 +1124,7 @@ int main(void)
  8000b5c:	4877      	ldr	r0, [pc, #476]	; (8000d3c <main+0x314>)
  8000b5e:	f001 fab3 	bl	80020c8 <HAL_I2C_Mem_Read>
 
-			Accel_X_RAW = (int16_t)(Rec_Data[0] << 8 | Rec_Data [1]);
+			Accel_X_RAW = (int16_t)(Rec_Data[0] << 8 | Rec_Data [1]); //We define a Rec_Data array to stock data
  8000b62:	783b      	ldrb	r3, [r7, #0]
  8000b64:	021b      	lsls	r3, r3, #8
  8000b66:	b21a      	sxth	r2, r3
@@ -1132,7 +1132,7 @@ int main(void)
  8000b6a:	b21b      	sxth	r3, r3
  8000b6c:	4313      	orrs	r3, r2
  8000b6e:	83fb      	strh	r3, [r7, #30]
-			Accel_Y_RAW = (int16_t)(Rec_Data[2] << 8 | Rec_Data [3]);
+			Accel_Y_RAW = (int16_t)(Rec_Data[2] << 8 | Rec_Data [3]); //received from the MPU6050 in variables
  8000b70:	78bb      	ldrb	r3, [r7, #2]
  8000b72:	021b      	lsls	r3, r3, #8
  8000b74:	b21a      	sxth	r2, r3
@@ -1140,7 +1140,7 @@ int main(void)
  8000b78:	b21b      	sxth	r3, r3
  8000b7a:	4313      	orrs	r3, r2
  8000b7c:	83bb      	strh	r3, [r7, #28]
-			Accel_Z_RAW = (int16_t)(Rec_Data[4] << 8 | Rec_Data [5]);
+			Accel_Z_RAW = (int16_t)(Rec_Data[4] << 8 | Rec_Data [5]); //Accel_X_RAW, Accel_Y_RAW and Accel_Z_RAW
  8000b7e:	793b      	ldrb	r3, [r7, #4]
  8000b80:	021b      	lsls	r3, r3, #8
  8000b82:	b21a      	sxth	r2, r3
@@ -1148,8 +1148,8 @@ int main(void)
  8000b86:	b21b      	sxth	r3, r3
  8000b88:	4313      	orrs	r3, r2
  8000b8a:	837b      	strh	r3, [r7, #26]
-
-			x = Accel_X_RAW/16384.0;
+																	  //which are 16bits signed integer (int16_t).
+			x = Accel_X_RAW/16384.0; //Same here. But we divide by 16384.0 to obtain acceleration values in gravity units (in g).
  8000b8c:	f9b7 301e 	ldrsh.w	r3, [r7, #30]
  8000b90:	ee07 3a90 	vmov	s15, r3
  8000b94:	eeb8 6be7 	vcvt.f64.s32	d6, s15
@@ -1177,8 +1177,7 @@ int main(void)
  8000be0:	4b5a      	ldr	r3, [pc, #360]	; (8000d4c <main+0x324>)
  8000be2:	edc3 7a00 	vstr	s15, [r3]
 
-
-			sizeStr = snprintf(uartTxBuffer, UARTTXSIZE, "X=%1.3f, Y=%1.3f, Z=%1.3f\r\n",x,y,z);
+			sizeStr = snprintf(uartTxBuffer, UARTTXSIZE, "X=%1.3f, Y=%1.3f, Z=%1.3f\r\n",x,y,z); //snprintf is used to format the values of x, y, and z into a string and stores it in uartTxBuffer
  8000be6:	4b57      	ldr	r3, [pc, #348]	; (8000d44 <main+0x31c>)
  8000be8:	edd3 7a00 	vldr	s15, [r3]
  8000bec:	eeb7 7ae7 	vcvt.f64.f32	d7, s15
@@ -1199,7 +1198,8 @@ int main(void)
  8000c1c:	b2da      	uxtb	r2, r3
  8000c1e:	4b4e      	ldr	r3, [pc, #312]	; (8000d58 <main+0x330>)
  8000c20:	701a      	strb	r2, [r3, #0]
-			HAL_UART_Transmit(&huart3, uartTxBuffer, sizeStr, 100);
+
+			HAL_UART_Transmit(&huart3, uartTxBuffer, sizeStr, 100); //the string is transmitted over UART using HAL.
  8000c22:	4b4d      	ldr	r3, [pc, #308]	; (8000d58 <main+0x330>)
  8000c24:	781b      	ldrb	r3, [r3, #0]
  8000c26:	b29a      	uxth	r2, r3
@@ -1230,7 +1230,7 @@ int main(void)
  8000c52:	483a      	ldr	r0, [pc, #232]	; (8000d3c <main+0x314>)
  8000c54:	f001 fa38 	bl	80020c8 <HAL_I2C_Mem_Read>
 
-			Accel_PHI_RAW = (int16_t)(Rec_Data[0] << 8 | Rec_Data [1]);
+			Accel_PHI_RAW = (int16_t)(Rec_Data[0] << 8 | Rec_Data [1]); //Same here to get the angular velocity.
  8000c58:	783b      	ldrb	r3, [r7, #0]
  8000c5a:	021b      	lsls	r3, r3, #8
  8000c5c:	b21a      	sxth	r2, r3
@@ -1307,7 +1307,7 @@ int main(void)
  8000d16:	4811      	ldr	r0, [pc, #68]	; (8000d5c <main+0x334>)
  8000d18:	f005 ff9c 	bl	8006c54 <HAL_UART_Transmit>
 
-			timFlagIt = 0;
+			timFlagIt = 0; //Making sure the loop does work properly.
  8000d1c:	4b08      	ldr	r3, [pc, #32]	; (8000d40 <main+0x318>)
  8000d1e:	2200      	movs	r2, #0
  8000d20:	701a      	strb	r2, [r3, #0]
