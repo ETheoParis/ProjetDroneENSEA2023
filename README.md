@@ -69,9 +69,7 @@ Nous avons donc abouti au schématique suivant :
 
 
 
-
 	Figure 2.a : Première partie du schématique du projet
-
 
 
 
@@ -175,12 +173,15 @@ l’accélération angulaire selon psi
 
 Nous avons basé notre premier modèle sur le document State Space System Modelling of a Quadcopter UAV qui donnait une représentation d'état du système.
 
+
 Représentation d’état du système
 ![image](https://github.com/ETheoParis/ProjetDroneENSEA2023/blob/main/Images/ASSERVISSEMENT%20Repr%C3%A9sentation%20d'%C3%A9tat.png)
 
 Après avoir mis en forme les équations sur Matlab et défini les paramètres de l’étude, on détermine les indices relatifs en cherchant CA^rho-1 ≠ 0. 
 On obtient les résultats suivants : 
+
 ![image](https://github.com/ETheoParis/ProjetDroneENSEA2023/blob/main/Images/rho.png)
+
 
 On doit donc calculer les rho de chaque ligne.
 Avec matlab on trouve les différent rho tel que la matrice soit inversible. Pour cela il suffit que au moins 1 des coefficient de la ligne soit non nul.
@@ -197,31 +198,34 @@ On peut alors déterminer l’inverse de la matrice de découplage, on constate 
 
 Nous avons donc changé de modèle pour se baser sur celui de la simulation quadcopter (par Monsieur Djemai).
 
-__________________________________________________________________________________________________
 
 III. 3 Nouvelle modélisation :
+
 
 On se base sur une nouvelle modélisation qui nous donne directement l'équation des couples et de la somme des forces des moteurs en fonction des accélérations. 
 Il faudrait trouver un moyen de déterminer les fonctions seuil et les constants réstantes. On sait déja que mu est la force minimum des moteurs pour faire décoler de drone. Avec plus de temps il aurait surment été possible de faire fonctionner l'asservissement.
 
 
+____________________________________________________________________________________________________________________________________________________________
+____________________________________________________________________________________________________________________________________________________________
+
 IV. Software :
 
-Nous avons basé notre premier modèle sur le document State Space System Modelling of a Quad Copter UAV qui donnait une représentation d'état du système. Après avoir mis en forme les équations sur matlab on obtient un problème car le système possède 4 commande pour 6 sortie. On ne peut donc pas découpler les variables du système (cf cours d'assevissement).
-Nous avons donc changé de modèle pour se basé sur celui de la simulation quadcopter (par Djemai).
+##
+Pour la partie code en C, le code sur carte NUCLEOH7A3ZI est présent sur le projet NUCLEOH7A3ZI_MPU6050. Nous n'avons pas optimisé et clarifié totalement le code suite à un problème de makefile sur les fonctions crées automatiquement par STM32 via l'ioc.
+Le code a été également porté sur un autre projet (DroneFlying en l'occurence) pour le code à implémenter sur le PCB du drone.
 
 
 1. PWM
+
 En ce qui concerne le contrôle des 4 moteurs, on a décidé qu'elle se ferrait via une PWM (Pulse Width Modulation ou Modulation de largeur d'impulsion en français). 
 La méthode PWM consiste à faire varier le rapport cyclique à une fréquence fixe pour ajuster la tension à la valeur cible souhaitée.
-
 
 
 ![image] 
 (https://github.com/ETheoParis/ProjetDroneENSEA2023/blob/main/Images/PWM.png)
 
 Figure 4 : PWM Fonctionnement
-
 
 
 ![image] 
@@ -246,7 +250,6 @@ Nous avons alors ajouté un PSC (prescaler) "4-1" et un rapport de division ARR 
 Figure 6 & 7 : Configuration Timer pour PWM 
 
 
-
 D'ailleurs, en ce qui concerne STM32CubeIDE, il faut penser à générer automatiquement les fichiers de code .c et .h implémentés par STM lors de l'utilisation d'un port GPIO quelconque ou bien d'un timer comme c'est le cas actuellement.
 (XXX.ioc -> Project Manager -> Code Generator -> Generate peripheral initialization as a pair of '.c/.h' files per peripheral)
 
@@ -260,22 +263,44 @@ Dans le cas de notre code, nous avons testé avec sortie sur l'oscilloscope la P
 Figure 8 : Test PWM sur oscilloscope
 
 
+La fonction calculCCR permet de faire le lien entre une tension voulue et la PWM. Son résultat serait utilisé dans la fonction __HAL_TIM_SET_COMPARE pour changer la valeurs de la PWM.
 La fonction CalculCCR n'a pas pu être vérifiée et optimisée avec les caractéristiques des moteurs (notamment la constance de couple Kc propres à nos moteurs) dans le cas de notre drone puisqu'on a eu un problème hardware sur le PCB qui a empêché les tests. Toutefois, la PWM était effectivement fonctionnel avec affichage sur l'oscilloscope. Nous aurions encore eu à optmiser le choix de CCR afin d'être bien compris dans la plage de fonctionnement des moteurs (en terme de tensions/vitesse de rotation acceptées). Cela aurait pu se faire en adoptant un ordre croissant de CCR afin d'éviter d'endommager les moteurs.
-
 
 
 
 2. MPU6050
 
-On utilise une structure de vecteurs à 3 coordonnées et des fonctions pour pouvoir primitiver les vecteurs afin d’obtenir la position.
-La fonction calculCCR permet de faire le lien entre une tension voulue et la PWM. Son résultat serait utilisé dans la fonction __HAL_TIM_SET_COMPARE pour changer la valeurs de la PWM.
-calculCourantMoteur utilise la tension au borne de la résistance Rshunt pour calculer le courant dans le moteur. Son résultat devait servir à mesurer la distance avec le sol.
-Pour la récupération des données de la centrale inertielle on utilise HAL_TIM_PeriodElapsedCallback pour échantillonner la récupération des données à la fréquence du timer. Les données sont lues par HAL_I2C_Mem_Read puis enregistrées dans Rec_Data et recopier dans x, y, z. HAL_UART_Transmit permet de tester le fonctionnement du MPU en récupérant les données sur un ordinateur.
+Pour contrôler la trajectoire du drone et le stabiliser, nous avons besoin d'un gyroscope et d'un accéléromètre qui permet d'obtenir des valeurs de positions et d'angle après traitement. On a donc utilisé une centrale inertielle qui comprend les deux : le MPU6050.
+Cette centrale inertielle communique en bus I2C avec le microprocesseur et transmet les données via UART. On définit les ports de transmissions directement sur l'ioc, comme avec la PWM. On a donc également pu se reposer sur les bibliothèques HAL et UART déjà intégrée et propres à STM32.
+
+Pour la récupération des données de la centrale inertielle on utilise HAL_TIM_PeriodElapsedCallback pour échantillonner la récupération des données à la fréquence du timer. Les données sont lues par HAL_I2C_Mem_Read puis enregistrées dans Rec_Data et recopier dans x, y, z. HAL_UART_Transmit permet de tester le fonctionnement du MPU en récupérant les données via une interface d'affichage tel que Putty sur Windows.
+
+![image]
+(https://github.com/ETheoParis/ProjetDroneENSEA2023/blob/main/Images/Putty.png)
+
+Figure 9 : Affichage des valeurs d'accélération et de vitesse angulaire obtenues de la centrale inertielle sur Putty.
+
+Toutefois, en ce qui concerne les valeurs, on observe une variation en l'absence même de mouvement. Cela est problématique par rapport au fait que l'on intègre 2 fois pour obtenir la position, on aurait dans ce cas beaucoup trop d'incertitudes et de variations par rapport à la réalité au fur et à mesure que le drone vole et se déplace. 
+Il faut donc travailler sur l'échelle de précision du capteur mais nous n'avons pas pu améliorer ce point-ci par manque de temps. Nous aurions également pu filtrer les valeurs et ne garder que celles qui étaient pertinentes.
+
+
+
+3. Optimisation
+
+Pour éviter que le drone ne se pose trop violemment/rapidement, ce qui aurait endommagé les composants, nous aurions pu mesurer et vérifier la variation de résistance vis-à-vis de la rotation des hélices de chaque moteur. Une résistance plus faible aurait témoigné du fait qu'il y a une réaction normale de pousée vis-à-vis du sol et donc cela aurait signifié une proximité plus importante avec le sol.
+
+La fonction calculCourantMoteur utilise la tension au borne de la résistance Rshunt pour calculer le courant dans le moteur. Son résultat devait servir à mesurer la distance avec le sol. Bien que nous avons bien ajouté une résistance pour cette optimisation, nous n'avons malheureusement pas pu l'implémenter et la tester en plus du cahier des charges initial par manque de temps et contraintes techniques.
+
+_______________________________________________________________________
+
+En terme d'optimisation, on aurait également pu améliorer le code et diminuer son empreinte en terme de ressources inutiles, notamment dans le call de fonctions bien qu'on travaille déjà en C, langage avec une empreinte assez faible.
+Le code aurait également pu être amélioré dans son agencement si nous avions réglé le problème d'un MakeFile affecté.
 
 
 
 
- ____________________________________________________________________________________________________________________________________________________________
+_______________________________________________________________________
+_____________________________________________________________________________________
 
 
 QUESTIONS OBJECTIFS DEVELOPPEMENT DURABLE:
@@ -284,26 +309,26 @@ ________________________________________________________________________________
 
 Notre drone a été modélisé tout en prenant en compte la limitation de la consommation d'énergie. Les critères pris en compte sont :
 
--le choix des composants (développé dans la question suivante) qui doit favoriser l'économie d'énergie. (batterie avec bonne capacité et poids raisonnable)
+- Le choix des composants (développé dans la question suivante) qui doit favoriser l'économie d'énergie. (batterie avec bonne capacité et poids raisonnable)
 
--la conception du drone (favorisation des matériaux légers pour la structure=> réduction du poids total=> travail plus efficace du moteur et aérodynamique du drone étudiée)
+- La conception du drone (favorisation des matériaux légers pour la structure=> réduction du poids total=> travail plus efficace du moteur et aérodynamique du drone étudiée et donc une autonomie accrûe -> Apporte de nouvelles fonctionnalités qui n'étaient pas possibles)
 
--usage de technologies avancées (capteurs de mouvement et optimisation du code)
+- Usage de technologies avancées (centrale inertielle qui regroupe à la fois un accéléromètre mais aussi un gyroscope. Nous avons donc l'échange de toutes les données externes via seulement une interface I2C et évite de multiplier le nombre de composants sur le PCB qui alourdi le drone et donc augmente la consommation d'énergie et code avec un langage de bas niveau, C, donc à plutôt faible empreinte carbone).
+
+
 _____________________________________________________________________________________________________________________________________
 =>Expliquer les critères de choix des composants de votre projet (critères environnementaux, de disponibilité, d'emprise spatiale, autres).
 
 Le choix des composants est primordial lors de la réalisation d'un projet. Il existe plusieurs critères à prendre en considération:
 
--Critères environnementaux : 
-
+-Critères environnementaux : Il faut effectivement privilégier le fait d'utiliser le moins de composants possibles sur notre PCB et sinon utiliser ceux qui présente une efficience importante en terme de consommation.
 
 -Critères de disponibilité : Il est nécessaire de privilégier les composants des fournisseurs les plus fiables (Farnell/RS/Mouser/Digikey/Gotronic...). Chez ces derniers, le choix de matériel est largement plus important et des datasheets des composants y sont proposées.
 
-
 -Critères d'emprise spatiale : (taille et poids : les composants trop lourds peuvent avoir un impact négatif sur les caractéristiques de vol du drone)
 
-
 On peut également prendre en compte les critères suivants : le coût/les performances et la compatibilité avec d'autres composants du système. 
+
 
 Concentrons-nous désormais sur chaque composant : 
 - Batterie : Nous avons choisi une batterie de capacité 3,7 Wh avec une masse = 30g afin de respecter les critères d'emprise spatiale.La capacité a été choisie afin de permettre le respect du cahier des charges (vol sur 10m avec montée et descente) sans trop impacter l'autonomie (puisque la charge influe sur la vitesse de rotation des hélices pour maintenir le drone en vol).
@@ -314,7 +339,7 @@ Concentrons-nous désormais sur chaque composant :
 
 -Hélices: Nous prenons en considération leurs longueurs, leurs pas ainsi que leurs compositions (matériaux).
 
--Châssis: Nous utilisons un châssis qui est en PLA, acide polylactique et qui est en plastique biodégradable et recyclable. 
+-Châssis: Nous utilisons un châssis qui est fait en PLA, l'acide polylactique qui est en plastique biodégradable (sous certaines conditions) et recyclable par extrudeuse (le plus simple et moins couteux) ou bien par dépolymérisation et repolymérisation. Il s'agit d'un matériau à faible empreinte carbone, notamment dans le cas d'un prototypage comme on est ammené à faire, il s'agit d'une bonne solution logistique et environnemental. 
 _____________________________________________________________________________________________________________________________________
 => Sources :
 
