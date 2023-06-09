@@ -65,7 +65,7 @@ Nous avons donc abouti au schématique suivant :
 
 
 
-![⁪schématique1](https://github.com/ETheoParis/ProjetDroneENSEA2023/blob/main/Images/diagramme_partie1.JPG)
+![schématique1](https://github.com/ETheoParis/ProjetDroneENSEA2023/blob/main/Images/diagramme_partie1.JPG)
 
 
 
@@ -162,11 +162,26 @@ Dans un premier temps, nous avons commencé par trouver une documentation adapt�
 
 III.2. 1ère Modélisation : Discrétisation-Découplage 
 
+L’objectif de cette modélisation est de réussir à déterminer notre commande u que nous pourrons exploiter par la suite via nos moteurs. 
+
+Après avoir cherché la modélisation la plus proche de la réalité, on effectue une représentation d'état du système. On se base alors sur l'article (2) précédemment introduits. 
+
+Nos paramètres d’entrées représentés par le vecteur X sont : 
+
+l’accélération selon x 
+l’accélération selon y
+l’accélération selon z
+l’accélération angulaire selon thêta 
+l’accélération angulaire selon phi
+l’accélération angulaire selon psi 
+
 Nous avons basé notre premier modèle sur le document State Space System Modelling of a Quadcopter UAV qui donnait une représentation d'état du système.
 
 Représentation d’état du système 
 
-Après avoir mis en forme les équations sur Matlab et défini les paramètres de l’étude, on détermine les indices relatifs en cherchant CArho-1 ≠ 0. On obtient les résultats suivants : 
+Après avoir mis en forme les équations sur Matlab et défini les paramètres de l’étude, on détermine les indices relatifs en cherchant CA^rho-1 ≠ 0. 
+On obtient les résultats suivants : 
+
 
 On doit donc calculer les rho de chaque ligne.
 Avec matlab on trouve les différent rho tel que la matrice soit inversible. Pour cela il suffit que au moins 1 des coefficient de la ligne soit non nul.
@@ -195,6 +210,34 @@ Nous avons donc changé de modèle pour se basé sur celui de la simulation quad
 
 
 1. PWM
+En ce qui concerne le contrôle des 4 moteurs, on a décidé qu'elle se ferrait via une PWM (Pulse Width Modulation ou Modulation de largeur d'impulsion en français). 
+La méthode PWM consiste à faire varier le rapport cyclique à une fréquence fixe pour ajuster la tension à la valeur cible souhaitée.
+
+
+![PWM]
+(lien1)
+![PWM_Diagramme]
+(lien2)
+
+La fréquence fixe avec laquelle nous travaillons est alors de 20kHz afin d'éviter les fréquences audibles par l'Homme.
+Dans le cas de notre test sur NUCLEO, nous avons configuré un timer via l'interface ioc sur STL32CubeIDE. La fréquence d'horloge de base de la carte était de 80MHz. 
+Nous avons alors ajouté un PSC (prescaler) "4-1" et un rapport de division ARR (auto reload register) de "1000-1" afin d'obtenir une fréquence d'horloge d'étude de 20kHz.
+
+D'ailleurs, en ce qui concerne STM32CubeIDE, il faut penser à générer automatiquement les fichiers de code .c et .h implémentés par STM lors de l'utilisation d'un port GPIO quelconque ou bien d'un timer comme c'est le cas actuellement.
+(XXX.ioc -> Project Manager -> Code Generator -> Generate peripheral initialization as a pair of '.c/.h' files per peripheral)
+
+En ce qui concerne le fonctionnement, on doit alors déterminer une valeur de comparaison CCR afin d'avoir le rapport cyclique souhaitée. 
+Dans le cas de notre code, nous avons testé avec sortie sur l'oscilloscope la PWM pour différentes valeurs de CCR choisie (200, 400, 800).
+![PWM_Osciloscope]
+(lien3)
+La fonction CalculCCR n'a pas pu être vérifiée et optimisée avec les caractéristiques des moteurs (notamment la constance de couple Kc propres à nos moteurs) dans le cas de notre drone puisqu'on a eu un problème hardware sur le PCB.
+
+
+
+
+
+
+2. MPU6050
 
 On utilise une structure de vecteurs à 3 coordonnées et des fonctions pour pouvoir primitiver les vecteurs afin d’obtenir la position.
 La fonction calculCCR permet de faire le lien entre une tension voulue et la PWM. Son résultat serait utilisé dans la fonction __HAL_TIM_SET_COMPARE pour changer la valeurs de la PWM.
