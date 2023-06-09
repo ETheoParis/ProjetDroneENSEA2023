@@ -3,7 +3,7 @@
 
 I. Introduction :
 
-<<<<<<< HEAD
+
 Nous avons choisi de constituer un groupe de 5 personnes pour asservir et concevoir le PCB d'un drone. La structure en impression 3D nous a été fourni, nous nous sommes donc penchés sur la partie électronique et informatique.
 Selon le dictionnaire Larousse, un drone "est un petit avion télécommandé utilisé pour des tâches diverses". Dans notre cas, le cahier des charges impose que notre drone puisse décoller, voler de manière rectiligne et atterrir après avoir volé pendant x mètres. 
 Pour satisfaire le cahier des charges, nous avons divisé le travail entre les membres du groupe. Jack Du, Nesrine Mathlouthi, Cassandre Chandelier et Théo Paris se sont occupés de l’asservissement et du programme informatique pendant que Fannie Bichemin a réalisé le schématique  et l’éditeur de PCB ainsi que la soudure des composants.
@@ -12,31 +12,31 @@ I.1 Organisation :
 
 Nous avons choisi de créer un groupe Messenger pour présenter nos avancées individuelles en dehors des séances de projet. Nous présentions nos recherches et les idées que nous avions pour résoudre les problèmes que nous avons rencontrés. De plus, nous avons réalisé dès la première séance un diagramme de Gantt pour suivre l’évolution de nos tâches respectives et du projet dans sa globalité. 
 
-=======
-	Que ce soit pour la surveillance de territoires, l'inspection de bâtiments, la cartographie de zones difficiles d'accès ou encore la livraison de colis, les drones sont devenus indispensables pour de nombreuses entreprises. Il s’agit de petits avions télécommandés utilisés pour des tâches diverses. (Larousse)
 
-	Notre objectif est d’asservir et de concevoir le PCB d’un drone quadcoptère dont la structure nous a été fournie. Nous veillerons à respecter le cahier des charges suivant : 
+Que ce soit pour la surveillance de territoires, l'inspection de bâtiments, la cartographie de zones difficiles d'accès ou encore la livraison de colis, les drones sont devenus indispensables pour de nombreuses entreprises. Il s’agit de petits avions télécommandés utilisés pour des tâches diverses. (Larousse)
+
+Notre objectif est d’asservir et de concevoir le PCB d’un drone quadcoptère dont la structure nous a été fournie. Nous veillerons à respecter le cahier des charges suivant : 
 - Véhicule autonome
 - Processeur sur carte-mère
 - Pas de contrôle à distance  
 - Code embarqué : C sur STM32
 - Avancer, décoller
 - Avancer "droit" puis de 10 m.
->>>>>>> 8d0cfbdf02e931a0f1080106fc5d263e76398d95
 
 ____________________________________________________________________________________________________________________________________________________________
 
 I.1 Répartition des tâches :
 
-	Afin de satisfaire le cahier des charges, nous avons constitué un groupe de cinq personnes formé par : 
+Afin de satisfaire le cahier des charges, nous avons constitué un groupe de cinq personnes formé par :
 - Fannie Bichemin (Hardware)
-- Cassandre Chandelier, Jack Du, Nesrine Mathlouthi et Théo Paris (Asservissement, Software, Rapport et Gestion de Projet). 
+- Cassandre Chandelier, Jack Du, Nesrine Mathlouthi et Théo Paris (Asservissement et Software)
 
+En ce qui concerne les livrables tels que le rapport et la soutenance, ils ont été complétés par les membres en expliquant les parties qui les concernent. 
 ____________________________________________________________________________________________________________________________________________________________
 
 I.2 Organisation :
 
-	Afin de travailler efficacement, nous avons choisi de créer un groupe Messenger. Ce dernier nous a permis de partager nos avancées individuelles en dehors des séances de projet. Nous présentions nos recherches et idées que nous avions pour résoudre les problèmes que nous avons rencontrés. De plus, nous avons réalisé dès la première séance un diagramme de Gantt pour suivre l’évolution de nos tâches respectives et du projet dans sa globalité. 
+Afin de travailler efficacement, nous avons choisi de créer un groupe Messenger. Ce dernier nous a permis de partager nos avancées individuelles en dehors des séances de projet. Nous présentions nos recherches et idées que nous avions pour résoudre les problèmes que nous avons rencontrés. De plus, nous avons réalisé dès la première séance un diagramme de Gantt pour suivre l’évolution de nos tâches respectives et du projet dans sa globalité. 
 
 ____________________________________________________________________________________________________________________________________________________________
 ____________________________________________________________________________________________________________________________________________________________
@@ -234,7 +234,6 @@ IV. Software :
 
 Nous avons basé notre premier modèle sur le document State Space System Modelling of a Quad Copter UAV qui donnait une représentation d'état du système. Après avoir mis en forme les équations sur matlab on obtient un problème car le système possède 4 commande pour 6 sortie. On ne peut donc pas découpler les variables du système (cf cours d'assevissement).
 Nous avons donc changé de modèle pour se basé sur celui de la simulation quadcopter (par Djemai).
->>>>>>> 8d0cfbdf02e931a0f1080106fc5d263e76398d95
 
 
 
