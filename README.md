@@ -202,19 +202,23 @@ III. 2 Modélisation :
 On commence par effectuer une représentation d'état du système. On se base sur l'article (2) qui permet de modéliser notre drone de la façon suivante : 
 
 https://imgur.com/mRCuQtt
-
-
+On cherche à obtenir la matrice de découplage de la forme:
+![Capture d’écran 2023-06-09 162437](https://github.com/ETheoParis/ProjetDroneENSEA2023/assets/128490640/7e70dc55-2a5f-42c6-a7ea-df3ccc31d49a)
+On doit donc calculer les rho de chaque ligne.
+Avec matlab on trouve les différent rho tel que la matrice soit inversible. Pour cela il suffit que au moins 1 des coefficient de la ligne soit non nul.
+Une fois la matrice de découplage obtenu la commande est obtenu par la relation suivante.
+![image](https://github.com/ETheoParis/ProjetDroneENSEA2023/assets/128490640/45edf08e-c4a2-4969-8f78-6efd1792d97f)
+On devrait en suite pourvoir liée chaque commande avec la tension dans les moteurs. En effet U1 est la somme des forces, U2 le couple selon l'axe x,U3 le couple selon l'axe y,U4 le couple selon l'axe z.
+Cependant il est impossible d'inversé la matrice de découplage car elle n'est pas carré. Le système possède trop de sortie pour trop peut de commande. Nous sommes donc contraint de chancher de modèle.
 
 
 
 ____________________________________________________________________________________________________________________________________________________________  
-III. 3 Version 1 : 
+III. 3 Nouvelle modélisation : 
+On se base sur une nouvelle modélisation qui nous donne directement l'équation des couples et de la somme des forces des moteurs en fonction des accélérations. 
+Il faudrait trouver un moyen de déterminer les fonctions seuil et les constants réstantes. Avec plus de temps il aurait surment été possible de faire fonctionner l'asservissement.
 
 
-
-
-____________________________________________________________________________________________________________________________________________________________
-III.4 Version 2 : 
 
 
 ____________________________________________________________________________________________________________________________________________________________
