@@ -99,7 +99,6 @@ Les empreintes des condensateurs en fonction de leurs valeurs.
 
 
 
-
 Par la suite, nous avons placé les composants sur l’éditeur PCB. Il a fallu faire en sorte que la taille et la forme du PCB soient adaptées à l’emplacement prévu sur la base du drone imprimée en 3D. 
 
 
@@ -115,11 +114,7 @@ Le PCB de droite est celui qui a été refait par Monsieur Papazouglou car il fa
 Les problèmes rencontrés sont: 
 Faire en sorte de relier de la manière la plus courte possible les pads entre eux. 
 
-
-
-
-
-
+____________________________________________________________________________________________________________________________________________________________
 
 
 Les choses à retenir:
@@ -127,7 +122,7 @@ Multiplier par 4 le “bloc moteur” (transistor, diode, connecteur, résistanc
 Placer les condensateurs “liés” à la carte STM32 très proches du microprocesseur. 
 Ne pas oublier de mettre des vias en plus un peu partout sur le PCB.
 
-
+____________________________________________________________________________________________________________________________________________________________
 
 Enfin, nous avons soudé les composants sur le PCB : 
 
@@ -145,6 +140,9 @@ La dernière photo permet de montrer que les 3 diodes sont branchées dans le bo
 Les problèmes rencontrés et les choses à retenir sont:
 Mettre du flux pour éviter les courts circuits (surtout pour le microprocesseur et les composants très petits et très rapprochés).
 Souder en premier les petits composants et en dernier les connecteurs (notamment pour éviter de les brûler).
+
+
+____________________________________________________________________________________________________________________________________________________________
 
 
 III. L’asservissement :
@@ -187,18 +185,21 @@ On doit donc calculer les rho de chaque ligne.
 Avec matlab on trouve les différent rho tel que la matrice soit inversible. Pour cela il suffit que au moins 1 des coefficient de la ligne soit non nul.
 Une fois la matrice de découplage obtenu la commande est obtenu par la relation suivante.
 
+
 ![image](https://github.com/ETheoParis/ProjetDroneENSEA2023/assets/128490640/45edf08e-c4a2-4969-8f78-6efd1792d97f)
+
 
 On devrait ensuite pouvoir lier chaque commande avec la tension dans les moteurs. En effet U1 est la somme des forces, U2 le couple selon l'axe x,U3 le couple selon l'axe y,U4 le couple selon l'axe z.
 
 On peut alors déterminer l’inverse de la matrice de découplage, on constate un problème car le système possède 4 commandes pour 6 sorties. On ne peut donc pas découpler les variables du système car le système est sous-actionné (cf cours d'asservissement).
+
+
 Nous avons donc changé de modèle pour se baser sur celui de la simulation quadcopter (par Monsieur Djemai).
-(Mettre une image du fichier Matlab) 
-=======
 
 __________________________________________________________________________________________________
 
-III. 3 Nouvelle modélisation : 
+III. 3 Nouvelle modélisation :
+
 On se base sur une nouvelle modélisation qui nous donne directement l'équation des couples et de la somme des forces des moteurs en fonction des accélérations. 
 Il faudrait trouver un moyen de déterminer les fonctions seuil et les constants réstantes. On sait déja que mu est la force minimum des moteurs pour faire décoler de drone. Avec plus de temps il aurait surment été possible de faire fonctionner l'asservissement.
 
@@ -214,25 +215,47 @@ En ce qui concerne le contrôle des 4 moteurs, on a décidé qu'elle se ferrait 
 La méthode PWM consiste à faire varier le rapport cyclique à une fréquence fixe pour ajuster la tension à la valeur cible souhaitée.
 
 
-![PWM]
-(lien1)
-![PWM_Diagramme]
-(lien2)
+
+![PWM] (https://github.com/ETheoParis/ProjetDroneENSEA2023/blob/main/Images/PWM.png)
+
+Figure 4 : PWM Fonctionnement
+
+
+
+![PWM_Diagramme] (https://github.com/ETheoParis/ProjetDroneENSEA2023/blob/main/Images/PWM_Diagramme.png)
+
+Figure 5 : Diagramme PWM 
+
 
 La fréquence fixe avec laquelle nous travaillons est alors de 20kHz afin d'éviter les fréquences audibles par l'Homme.
 Dans le cas de notre test sur NUCLEO, nous avons configuré un timer via l'interface ioc sur STL32CubeIDE. La fréquence d'horloge de base de la carte était de 80MHz. 
 Nous avons alors ajouté un PSC (prescaler) "4-1" et un rapport de division ARR (auto reload register) de "1000-1" afin d'obtenir une fréquence d'horloge d'étude de 20kHz.
+
+
+![PWM_Config1] (https://github.com/ETheoParis/ProjetDroneENSEA2023/blob/main/Images/PWM_Config1.png)
+
+
+![PWM_Config] (https://github.com/ETheoParis/ProjetDroneENSEA2023/blob/main/Images/PWM_Config.png)
+
+
+Figure 6 & 7 : Configuration Timer pour PWM 
+
+
 
 D'ailleurs, en ce qui concerne STM32CubeIDE, il faut penser à générer automatiquement les fichiers de code .c et .h implémentés par STM lors de l'utilisation d'un port GPIO quelconque ou bien d'un timer comme c'est le cas actuellement.
 (XXX.ioc -> Project Manager -> Code Generator -> Generate peripheral initialization as a pair of '.c/.h' files per peripheral)
 
 En ce qui concerne le fonctionnement, on doit alors déterminer une valeur de comparaison CCR afin d'avoir le rapport cyclique souhaitée. 
 Dans le cas de notre code, nous avons testé avec sortie sur l'oscilloscope la PWM pour différentes valeurs de CCR choisie (200, 400, 800).
+
+
 ![PWM_Osciloscope]
-(lien3)
-La fonction CalculCCR n'a pas pu être vérifiée et optimisée avec les caractéristiques des moteurs (notamment la constance de couple Kc propres à nos moteurs) dans le cas de notre drone puisqu'on a eu un problème hardware sur le PCB.
+(https://github.com/ETheoParis/ProjetDroneENSEA2023/blob/main/Images/PWM_Osciloscope.png)
+
+Figure 3 : PCB soudé 
 
 
+La fonction CalculCCR n'a pas pu être vérifiée et optimisée avec les caractéristiques des moteurs (notamment la constance de couple Kc propres à nos moteurs) dans le cas de notre drone puisqu'on a eu un problème hardware sur le PCB qui a empêché les tests. Toutefois, la PWM était effectivement fonctionnel avec affichage sur l'oscilloscope. Nous aurions encore eu à optmiser le choix de CCR afin d'être bien compris dans la plage de fonctionnement des moteurs (en terme de tensions/vitesse de rotation acceptées). Cela aurait pu se faire en adoptant un ordre croissant de CCR afin d'éviter d'endommager les moteurs.
 
 
 
