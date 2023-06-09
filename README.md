@@ -175,7 +175,8 @@ l’accélération angulaire selon psi
 
 Nous avons basé notre premier modèle sur le document State Space System Modelling of a Quadcopter UAV qui donnait une représentation d'état du système.
 
-Représentation d’état du système 
+Représentation d’état du système
+![ASSERVISSEMENT Représentation d'état](Images/ASSERVISSEMENT Représentation d'état.png)
 
 Après avoir mis en forme les équations sur Matlab et défini les paramètres de l’étude, on détermine les indices relatifs en cherchant CA^rho-1 ≠ 0. 
 On obtient les résultats suivants : 
@@ -217,7 +218,6 @@ La méthode PWM consiste à faire varier le rapport cyclique à une fréquence f
 
 
 ![PWM] 
-
 (https://github.com/ETheoParis/ProjetDroneENSEA2023/blob/main/Images/PWM.png)
 
 Figure 4 : PWM Fonctionnement
@@ -236,12 +236,10 @@ Nous avons alors ajouté un PSC (prescaler) "4-1" et un rapport de division ARR 
 
 
 ![PWM_Config1]
-
 (https://github.com/ETheoParis/ProjetDroneENSEA2023/blob/main/Images/PWM_Config1.png)
 
 
 ![PWM_Config]
-
 (https://github.com/ETheoParis/ProjetDroneENSEA2023/blob/main/Images/PWM_Config.png)
 
 
@@ -256,11 +254,10 @@ En ce qui concerne le fonctionnement, on doit alors déterminer une valeur de co
 Dans le cas de notre code, nous avons testé avec sortie sur l'oscilloscope la PWM pour différentes valeurs de CCR choisie (200, 400, 800).
 
 
-![PWM_Osciloscope]
+![PWM_Oscilloscope]
+(https://github.com/ETheoParis/ProjetDroneENSEA2023/blob/main/Images/PWM_Oscilloscope.png)
 
-(https://github.com/ETheoParis/ProjetDroneENSEA2023/blob/main/Images/PWM_Osciloscope.png)
-
-Figure 3 : PCB soudé 
+Figure 8 : Test PWM sur oscilloscope
 
 
 La fonction CalculCCR n'a pas pu être vérifiée et optimisée avec les caractéristiques des moteurs (notamment la constance de couple Kc propres à nos moteurs) dans le cas de notre drone puisqu'on a eu un problème hardware sur le PCB qui a empêché les tests. Toutefois, la PWM était effectivement fonctionnel avec affichage sur l'oscilloscope. Nous aurions encore eu à optmiser le choix de CCR afin d'être bien compris dans la plage de fonctionnement des moteurs (en terme de tensions/vitesse de rotation acceptées). Cela aurait pu se faire en adoptant un ordre croissant de CCR afin d'éviter d'endommager les moteurs.
