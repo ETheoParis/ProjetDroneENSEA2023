@@ -101,23 +101,24 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_TIM1_Init();
-  MX_TIM6_Init();
-  MX_I2C1_Init();
+  MX_TIM1_Init(); //Timer used here to set a PWM for controlling the motors.
+  MX_TIM6_Init(); //Timer defined to just have a acceptable clock to display on Putty (for Windows) the X,Y,Z acceleration and angular velocity.
+  MX_I2C1_Init(); //I2C port used here to communicate (and especially read) information received by
+
   /* USER CODE BEGIN 2 */
 	HAL_TIM_Base_Start_IT(&htim6);
-	HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
+	HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1); //Start the PWM we wanted for each motor.
 	HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_2);
 	HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_3);
 	HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_4);
-	__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, 800);
+	__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, 800); //Function already implemented in HAL library and allows to compare to a variable CCR (here 800, choosed by myself) and get the exact duty cycle we wanted.
 	__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, 600);
 	__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_3, 400);
 	__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_4, 200);
 	/* USER CODE BEGIN 2 */
 	//Init MPU6050
 	HAL_I2C_Mem_Read(&hi2c1, MPU6050_ADDR, WHO_AM_I_REG, 1, &check, 1, 1000);
-	if (check == 0x68)  // 0x68 will be returned by the sensor if everything goes well
+	if (check == 0x68)  // 0x68 will be returned by the sensor if everything goes well according to the DataSheet
 	{
 		uint8_t Data;
 		// power management register 0X6B we should write all 0's to wake the sensor up
@@ -149,17 +150,17 @@ int main(void)
     /* USER CODE BEGIN 3 */
 		if(timFlagIt){
 			uint8_t Rec_Data[6];
-			int16_t Accel_X_RAW = 0;
-			int16_t Accel_Y_RAW = 0;
-			int16_t Accel_Z_RAW = 0;
+			int16_t Accel_X_RAW = 0; //We define a Rec_Data array to stock data
+			int16_t Accel_Y_RAW = 0; //received from the MPU6050 in variables
+			int16_t Accel_Z_RAW = 0; //Accel_X_RAW, Accel_Y_RAW and Accel_Z_RAW which are 16bits signed integer (int16_t).
 			HAL_I2C_Mem_Read (&hi2c1, MPU6050_ADDR, ACCEL_XOUT_H_REG, 1, Rec_Data, 6, 1000);
 
 			Accel_X_RAW = (int16_t)(Rec_Data[0] << 8 | Rec_Data [1]);
 			Accel_Y_RAW = (int16_t)(Rec_Data[2] << 8 | Rec_Data [3]);
 			Accel_Z_RAW = (int16_t)(Rec_Data[4] << 8 | Rec_Data [5]);
 
-			x = Accel_X_RAW/16384.0;
-			y = Accel_Y_RAW/16384.0;
+			x = Accel_X_RAW/16384.0; //Same here. But we divide by 16384.0 to obtain acceleration values in gravity units (in g).
+			y = Accel_Y_RAW/16384.0; //snprintf is used to format the values of x, y, and z into a string and stores it in uartTxBuffer
 			z = Accel_Z_RAW/16384.0;
 
 
@@ -169,7 +170,7 @@ int main(void)
 			int16_t Accel_PSI_RAW = 0;
 			HAL_I2C_Mem_Read (&hi2c1, MPU6050_ADDR, GYRO_XOUT_H_REG, 1, Rec_Data, 6, 1000);
 
-			Accel_PHI_RAW = (int16_t)(Rec_Data[0] << 8 | Rec_Data [1]);
+			Accel_PHI_RAW = (int16_t)(Rec_Data[0] << 8 | Rec_Data [1]); //Same here to get the angular velocity.
 			Accel_THETA_RAW = (int16_t)(Rec_Data[2] << 8 | Rec_Data [3]);
 			Accel_PSI_RAW = (int16_t)(Rec_Data[4] << 8 | Rec_Data [5]);
 
@@ -178,9 +179,9 @@ int main(void)
 			float PSI = Accel_PSI_RAW/16384.0;
 
 			sizeStr = snprintf(uartTxBuffer, UARTTXSIZE, "PHI=%1.3f, THETA=%1.3f, PSI=%1.3f\r\n",PHI,THETA,PSI);
-//			HAL_UART_Transmit(&huart3, uartTxBuffer, sizeStr, 100);
+//			HAL_UART_Transmit(&huart1, uartTxBuffer, sizeStr, 100); //the string is transmitted over UART using HAL.
 
-		timFlagIt = 0;
+		timFlagIt = 0; //Making sure the loop does work properly.
 		}
 	}
   /* USER CODE END 3 */
@@ -240,6 +241,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	HAL_GPIO_TogglePin(LD1_GPIO_Port, LD1_Pin);
 	timFlagIt = 1;
 }
+//This function is a callback function to deal with interuptions of the clock in the process.
 /* USER CODE END 4 */
 
 /**

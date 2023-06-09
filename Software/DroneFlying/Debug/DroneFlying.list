@@ -39,11 +39,11 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING, OCTETS
  17 .debug_line   00012328  00000000  00000000  0004eda0  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    000a874f  00000000  00000000  000610c8  2**0
+ 18 .debug_str    000a879e  00000000  00000000  000610c8  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      00000050  00000000  00000000  00109817  2**0
+ 19 .comment      00000050  00000000  00000000  00109866  2**0
                   CONTENTS, READONLY
- 20 .debug_frame  00005318  00000000  00000000  00109868  2**2
+ 20 .debug_frame  00005318  00000000  00000000  001098b8  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -1185,45 +1185,86 @@ Disassembly of section .text:
  8000e20:	48000400 	.word	0x48000400
 
 08000e24 <main>:
+/**
+  * @brief  The application entry point.
+  * @retval int
+  */
+int main(void)
+{
  8000e24:	e92d 43b0 	stmdb	sp!, {r4, r5, r7, r8, r9, lr}
  8000e28:	b08e      	sub	sp, #56	; 0x38
  8000e2a:	af06      	add	r7, sp, #24
+  /* USER CODE END 1 */
+
+  /* MCU Configuration--------------------------------------------------------*/
+
+  /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
+  HAL_Init();
  8000e2c:	f000 fccb 	bl	80017c6 <HAL_Init>
+  /* USER CODE BEGIN Init */
+
+  /* USER CODE END Init */
+
+  /* Configure the system clock */
+  SystemClock_Config();
  8000e30:	f000 f9a6 	bl	8001180 <SystemClock_Config>
+  /* USER CODE BEGIN SysInit */
+
+  /* USER CODE END SysInit */
+
+  /* Initialize all configured peripherals */
+  MX_GPIO_Init();
  8000e34:	f7ff ff08 	bl	8000c48 <MX_GPIO_Init>
+  MX_TIM1_Init(); //Timer used here to set a PWM for controlling the motors.
  8000e38:	f000 fb1c 	bl	8001474 <MX_TIM1_Init>
+  MX_TIM6_Init(); //Timer defined to just have a acceptable clock to display on Putty (for Windows) the X,Y,Z acceleration and angular velocity.
  8000e3c:	f000 fbf6 	bl	800162c <MX_TIM6_Init>
+  MX_I2C1_Init(); //I2C port used here to communicate (and especially read) information received by
  8000e40:	f7ff ff58 	bl	8000cf4 <MX_I2C1_Init>
+
+  /* USER CODE BEGIN 2 */
+	HAL_TIM_Base_Start_IT(&htim6);
  8000e44:	48b7      	ldr	r0, [pc, #732]	; (8001124 <main+0x300>)
  8000e46:	f002 fe2f 	bl	8003aa8 <HAL_TIM_Base_Start_IT>
+	HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1); //Start the PWM we wanted for each motor.
  8000e4a:	2100      	movs	r1, #0
  8000e4c:	48b6      	ldr	r0, [pc, #728]	; (8001128 <main+0x304>)
  8000e4e:	f002 ff41 	bl	8003cd4 <HAL_TIM_PWM_Start>
+	HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_2);
  8000e52:	2104      	movs	r1, #4
  8000e54:	48b4      	ldr	r0, [pc, #720]	; (8001128 <main+0x304>)
  8000e56:	f002 ff3d 	bl	8003cd4 <HAL_TIM_PWM_Start>
+	HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_3);
  8000e5a:	2108      	movs	r1, #8
  8000e5c:	48b2      	ldr	r0, [pc, #712]	; (8001128 <main+0x304>)
  8000e5e:	f002 ff39 	bl	8003cd4 <HAL_TIM_PWM_Start>
+	HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_4);
  8000e62:	210c      	movs	r1, #12
  8000e64:	48b0      	ldr	r0, [pc, #704]	; (8001128 <main+0x304>)
  8000e66:	f002 ff35 	bl	8003cd4 <HAL_TIM_PWM_Start>
+	__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, 800); //Function already implemented in HAL library and allows to compare to a variable CCR (here 800, choosed by myself) and get the exact duty cycle we wanted.
  8000e6a:	4baf      	ldr	r3, [pc, #700]	; (8001128 <main+0x304>)
  8000e6c:	681b      	ldr	r3, [r3, #0]
  8000e6e:	f44f 7248 	mov.w	r2, #800	; 0x320
  8000e72:	635a      	str	r2, [r3, #52]	; 0x34
+	__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, 600);
  8000e74:	4bac      	ldr	r3, [pc, #688]	; (8001128 <main+0x304>)
  8000e76:	681b      	ldr	r3, [r3, #0]
  8000e78:	f44f 7216 	mov.w	r2, #600	; 0x258
  8000e7c:	639a      	str	r2, [r3, #56]	; 0x38
+	__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_3, 400);
  8000e7e:	4baa      	ldr	r3, [pc, #680]	; (8001128 <main+0x304>)
  8000e80:	681b      	ldr	r3, [r3, #0]
  8000e82:	f44f 72c8 	mov.w	r2, #400	; 0x190
  8000e86:	63da      	str	r2, [r3, #60]	; 0x3c
+	__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_4, 200);
  8000e88:	4ba7      	ldr	r3, [pc, #668]	; (8001128 <main+0x304>)
  8000e8a:	681b      	ldr	r3, [r3, #0]
  8000e8c:	22c8      	movs	r2, #200	; 0xc8
  8000e8e:	641a      	str	r2, [r3, #64]	; 0x40
+	/* USER CODE BEGIN 2 */
+	//Init MPU6050
+	HAL_I2C_Mem_Read(&hi2c1, MPU6050_ADDR, WHO_AM_I_REG, 1, &check, 1, 1000);
  8000e90:	f44f 737a 	mov.w	r3, #1000	; 0x3e8
  8000e94:	9302      	str	r3, [sp, #8]
  8000e96:	2301      	movs	r3, #1
@@ -1235,12 +1276,18 @@ Disassembly of section .text:
  8000ea2:	21d0      	movs	r1, #208	; 0xd0
  8000ea4:	48a2      	ldr	r0, [pc, #648]	; (8001130 <main+0x30c>)
  8000ea6:	f001 f917 	bl	80020d8 <HAL_I2C_Mem_Read>
+	if (check == 0x68)  // 0x68 will be returned by the sensor if everything goes well according to the DataSheet
  8000eaa:	4ba0      	ldr	r3, [pc, #640]	; (800112c <main+0x308>)
  8000eac:	781b      	ldrb	r3, [r3, #0]
  8000eae:	2b68      	cmp	r3, #104	; 0x68
  8000eb0:	d13b      	bne.n	8000f2a <main+0x106>
+	{
+		uint8_t Data;
+		// power management register 0X6B we should write all 0's to wake the sensor up
+		Data = 0;
  8000eb2:	2300      	movs	r3, #0
  8000eb4:	71fb      	strb	r3, [r7, #7]
+		HAL_I2C_Mem_Write(&hi2c1, MPU6050_ADDR, PWR_MGMT_1_REG, 1,&Data, 1, 1000);
  8000eb6:	f44f 737a 	mov.w	r3, #1000	; 0x3e8
  8000eba:	9302      	str	r3, [sp, #8]
  8000ebc:	2301      	movs	r3, #1
@@ -1252,8 +1299,12 @@ Disassembly of section .text:
  8000ec8:	21d0      	movs	r1, #208	; 0xd0
  8000eca:	4899      	ldr	r0, [pc, #612]	; (8001130 <main+0x30c>)
  8000ecc:	f000 fff0 	bl	8001eb0 <HAL_I2C_Mem_Write>
+
+		// Set DATA RATE of 1KHz by writing SMPLRT_DIV register
+		Data = 0x07;
  8000ed0:	2307      	movs	r3, #7
  8000ed2:	71fb      	strb	r3, [r7, #7]
+		HAL_I2C_Mem_Write(&hi2c1, MPU6050_ADDR, SMPLRT_DIV_REG, 1, &Data, 1, 1000);
  8000ed4:	f44f 737a 	mov.w	r3, #1000	; 0x3e8
  8000ed8:	9302      	str	r3, [sp, #8]
  8000eda:	2301      	movs	r3, #1
@@ -1265,8 +1316,13 @@ Disassembly of section .text:
  8000ee6:	21d0      	movs	r1, #208	; 0xd0
  8000ee8:	4891      	ldr	r0, [pc, #580]	; (8001130 <main+0x30c>)
  8000eea:	f000 ffe1 	bl	8001eb0 <HAL_I2C_Mem_Write>
+
+		// Set accelerometer configuration in ACCEL_CONFIG Register
+		// XA_ST=0,YA_ST=0,ZA_ST=0, FS_SEL=0 -> ± 2g
+		Data = 0x00;
  8000eee:	2300      	movs	r3, #0
  8000ef0:	71fb      	strb	r3, [r7, #7]
+		HAL_I2C_Mem_Write(&hi2c1, MPU6050_ADDR, ACCEL_CONFIG_REG, 1, &Data, 1, 1000);
  8000ef2:	f44f 737a 	mov.w	r3, #1000	; 0x3e8
  8000ef6:	9302      	str	r3, [sp, #8]
  8000ef8:	2301      	movs	r3, #1
@@ -1278,8 +1334,13 @@ Disassembly of section .text:
  8000f04:	21d0      	movs	r1, #208	; 0xd0
  8000f06:	488a      	ldr	r0, [pc, #552]	; (8001130 <main+0x30c>)
  8000f08:	f000 ffd2 	bl	8001eb0 <HAL_I2C_Mem_Write>
+
+		// Set Gyroscopic configuration in GYRO_CONFIG Register
+		// XG_ST=0,YG_ST=0,ZG_ST=0, FS_SEL=0 -> ± 250 °/s
+		Data = 0x00;
  8000f0c:	2300      	movs	r3, #0
  8000f0e:	71fb      	strb	r3, [r7, #7]
+		HAL_I2C_Mem_Write(&hi2c1, MPU6050_ADDR, GYRO_CONFIG_REG, 1, &Data, 1, 1000);
  8000f10:	f44f 737a 	mov.w	r3, #1000	; 0x3e8
  8000f14:	9302      	str	r3, [sp, #8]
  8000f16:	2301      	movs	r3, #1
@@ -1291,16 +1352,27 @@ Disassembly of section .text:
  8000f22:	21d0      	movs	r1, #208	; 0xd0
  8000f24:	4882      	ldr	r0, [pc, #520]	; (8001130 <main+0x30c>)
  8000f26:	f000 ffc3 	bl	8001eb0 <HAL_I2C_Mem_Write>
+	while (1)
+	{
+    /* USER CODE END WHILE */
+
+    /* USER CODE BEGIN 3 */
+		if(timFlagIt){
  8000f2a:	4b82      	ldr	r3, [pc, #520]	; (8001134 <main+0x310>)
  8000f2c:	781b      	ldrb	r3, [r3, #0]
  8000f2e:	2b00      	cmp	r3, #0
  8000f30:	d0fb      	beq.n	8000f2a <main+0x106>
+			uint8_t Rec_Data[6];
+			int16_t Accel_X_RAW = 0; //We define a Rec_Data array to stock data
  8000f32:	2300      	movs	r3, #0
  8000f34:	83fb      	strh	r3, [r7, #30]
+			int16_t Accel_Y_RAW = 0; //received from the MPU6050 in variables
  8000f36:	2300      	movs	r3, #0
  8000f38:	83bb      	strh	r3, [r7, #28]
+			int16_t Accel_Z_RAW = 0; //Accel_X_RAW, Accel_Y_RAW and Accel_Z_RAW which are 16bits signed integer (int16_t).
  8000f3a:	2300      	movs	r3, #0
  8000f3c:	837b      	strh	r3, [r7, #26]
+			HAL_I2C_Mem_Read (&hi2c1, MPU6050_ADDR, ACCEL_XOUT_H_REG, 1, Rec_Data, 6, 1000);
  8000f3e:	f44f 737a 	mov.w	r3, #1000	; 0x3e8
  8000f42:	9302      	str	r3, [sp, #8]
  8000f44:	2306      	movs	r3, #6
@@ -1312,6 +1384,8 @@ Disassembly of section .text:
  8000f50:	21d0      	movs	r1, #208	; 0xd0
  8000f52:	4877      	ldr	r0, [pc, #476]	; (8001130 <main+0x30c>)
  8000f54:	f001 f8c0 	bl	80020d8 <HAL_I2C_Mem_Read>
+
+			Accel_X_RAW = (int16_t)(Rec_Data[0] << 8 | Rec_Data [1]);
  8000f58:	783b      	ldrb	r3, [r7, #0]
  8000f5a:	021b      	lsls	r3, r3, #8
  8000f5c:	b21a      	sxth	r2, r3
@@ -1319,6 +1393,7 @@ Disassembly of section .text:
  8000f60:	b21b      	sxth	r3, r3
  8000f62:	4313      	orrs	r3, r2
  8000f64:	83fb      	strh	r3, [r7, #30]
+			Accel_Y_RAW = (int16_t)(Rec_Data[2] << 8 | Rec_Data [3]);
  8000f66:	78bb      	ldrb	r3, [r7, #2]
  8000f68:	021b      	lsls	r3, r3, #8
  8000f6a:	b21a      	sxth	r2, r3
@@ -1326,6 +1401,7 @@ Disassembly of section .text:
  8000f6e:	b21b      	sxth	r3, r3
  8000f70:	4313      	orrs	r3, r2
  8000f72:	83bb      	strh	r3, [r7, #28]
+			Accel_Z_RAW = (int16_t)(Rec_Data[4] << 8 | Rec_Data [5]);
  8000f74:	793b      	ldrb	r3, [r7, #4]
  8000f76:	021b      	lsls	r3, r3, #8
  8000f78:	b21a      	sxth	r2, r3
@@ -1333,6 +1409,8 @@ Disassembly of section .text:
  8000f7c:	b21b      	sxth	r3, r3
  8000f7e:	4313      	orrs	r3, r2
  8000f80:	837b      	strh	r3, [r7, #26]
+
+			x = Accel_X_RAW/16384.0; //Same here. But we divide by 16384.0 to obtain acceleration values in gravity units (in g).
  8000f82:	f9b7 301e 	ldrsh.w	r3, [r7, #30]
  8000f86:	4618      	mov	r0, r3
  8000f88:	f7ff facc 	bl	8000524 <__aeabi_i2d>
@@ -1347,6 +1425,7 @@ Disassembly of section .text:
  8000fa2:	4603      	mov	r3, r0
  8000fa4:	4a65      	ldr	r2, [pc, #404]	; (800113c <main+0x318>)
  8000fa6:	6013      	str	r3, [r2, #0]
+			y = Accel_Y_RAW/16384.0; //snprintf is used to format the values of x, y, and z into a string and stores it in uartTxBuffer
  8000fa8:	f9b7 301c 	ldrsh.w	r3, [r7, #28]
  8000fac:	4618      	mov	r0, r3
  8000fae:	f7ff fab9 	bl	8000524 <__aeabi_i2d>
@@ -1361,6 +1440,7 @@ Disassembly of section .text:
  8000fc8:	4603      	mov	r3, r0
  8000fca:	4a5d      	ldr	r2, [pc, #372]	; (8001140 <main+0x31c>)
  8000fcc:	6013      	str	r3, [r2, #0]
+			z = Accel_Z_RAW/16384.0;
  8000fce:	f9b7 301a 	ldrsh.w	r3, [r7, #26]
  8000fd2:	4618      	mov	r0, r3
  8000fd4:	f7ff faa6 	bl	8000524 <__aeabi_i2d>
@@ -1375,6 +1455,9 @@ Disassembly of section .text:
  8000fee:	4603      	mov	r3, r0
  8000ff0:	4a54      	ldr	r2, [pc, #336]	; (8001144 <main+0x320>)
  8000ff2:	6013      	str	r3, [r2, #0]
+
+
+			sizeStr = snprintf(uartTxBuffer, UARTTXSIZE, "X=%1.3f, Y=%1.3f, Z=%1.3f\r\n",x,y,z);
  8000ff4:	4b51      	ldr	r3, [pc, #324]	; (800113c <main+0x318>)
  8000ff6:	681b      	ldr	r3, [r3, #0]
  8000ff8:	4618      	mov	r0, r3
@@ -1404,12 +1487,16 @@ Disassembly of section .text:
  8001036:	b2da      	uxtb	r2, r3
  8001038:	4b45      	ldr	r3, [pc, #276]	; (8001150 <main+0x32c>)
  800103a:	701a      	strb	r2, [r3, #0]
+			int16_t Accel_PHI_RAW = 0;
  800103c:	2300      	movs	r3, #0
  800103e:	833b      	strh	r3, [r7, #24]
+			int16_t Accel_THETA_RAW = 0;
  8001040:	2300      	movs	r3, #0
  8001042:	82fb      	strh	r3, [r7, #22]
+			int16_t Accel_PSI_RAW = 0;
  8001044:	2300      	movs	r3, #0
  8001046:	82bb      	strh	r3, [r7, #20]
+			HAL_I2C_Mem_Read (&hi2c1, MPU6050_ADDR, GYRO_XOUT_H_REG, 1, Rec_Data, 6, 1000);
  8001048:	f44f 737a 	mov.w	r3, #1000	; 0x3e8
  800104c:	9302      	str	r3, [sp, #8]
  800104e:	2306      	movs	r3, #6
@@ -1421,6 +1508,8 @@ Disassembly of section .text:
  800105a:	21d0      	movs	r1, #208	; 0xd0
  800105c:	4834      	ldr	r0, [pc, #208]	; (8001130 <main+0x30c>)
  800105e:	f001 f83b 	bl	80020d8 <HAL_I2C_Mem_Read>
+
+			Accel_PHI_RAW = (int16_t)(Rec_Data[0] << 8 | Rec_Data [1]); //Same here to get the angular velocity.
  8001062:	783b      	ldrb	r3, [r7, #0]
  8001064:	021b      	lsls	r3, r3, #8
  8001066:	b21a      	sxth	r2, r3
@@ -1428,6 +1517,7 @@ Disassembly of section .text:
  800106a:	b21b      	sxth	r3, r3
  800106c:	4313      	orrs	r3, r2
  800106e:	833b      	strh	r3, [r7, #24]
+			Accel_THETA_RAW = (int16_t)(Rec_Data[2] << 8 | Rec_Data [3]);
  8001070:	78bb      	ldrb	r3, [r7, #2]
  8001072:	021b      	lsls	r3, r3, #8
  8001074:	b21a      	sxth	r2, r3
@@ -1435,6 +1525,7 @@ Disassembly of section .text:
  8001078:	b21b      	sxth	r3, r3
  800107a:	4313      	orrs	r3, r2
  800107c:	82fb      	strh	r3, [r7, #22]
+			Accel_PSI_RAW = (int16_t)(Rec_Data[4] << 8 | Rec_Data [5]);
  800107e:	793b      	ldrb	r3, [r7, #4]
  8001080:	021b      	lsls	r3, r3, #8
  8001082:	b21a      	sxth	r2, r3
@@ -1442,6 +1533,8 @@ Disassembly of section .text:
  8001086:	b21b      	sxth	r3, r3
  8001088:	4313      	orrs	r3, r2
  800108a:	82bb      	strh	r3, [r7, #20]
+
+			float PHI = Accel_PHI_RAW/16384.0;
  800108c:	f9b7 3018 	ldrsh.w	r3, [r7, #24]
  8001090:	4618      	mov	r0, r3
  8001092:	f7ff fa47 	bl	8000524 <__aeabi_i2d>
@@ -1455,6 +1548,7 @@ Disassembly of section .text:
  80010a8:	f7ff fd7e 	bl	8000ba8 <__aeabi_d2f>
  80010ac:	4603      	mov	r3, r0
  80010ae:	613b      	str	r3, [r7, #16]
+			float THETA = Accel_THETA_RAW/16384.0;
  80010b0:	f9b7 3016 	ldrsh.w	r3, [r7, #22]
  80010b4:	4618      	mov	r0, r3
  80010b6:	f7ff fa35 	bl	8000524 <__aeabi_i2d>
@@ -1468,6 +1562,7 @@ Disassembly of section .text:
  80010cc:	f7ff fd6c 	bl	8000ba8 <__aeabi_d2f>
  80010d0:	4603      	mov	r3, r0
  80010d2:	60fb      	str	r3, [r7, #12]
+			float PSI = Accel_PSI_RAW/16384.0;
  80010d4:	f9b7 3014 	ldrsh.w	r3, [r7, #20]
  80010d8:	4618      	mov	r0, r3
  80010da:	f7ff fa23 	bl	8000524 <__aeabi_i2d>
@@ -1481,6 +1576,8 @@ Disassembly of section .text:
  80010f0:	f7ff fd5a 	bl	8000ba8 <__aeabi_d2f>
  80010f4:	4603      	mov	r3, r0
  80010f6:	60bb      	str	r3, [r7, #8]
+
+			sizeStr = snprintf(uartTxBuffer, UARTTXSIZE, "PHI=%1.3f, THETA=%1.3f, PSI=%1.3f\r\n",PHI,THETA,PSI);
  80010f8:	6938      	ldr	r0, [r7, #16]
  80010fa:	f7ff fa25 	bl	8000548 <__aeabi_f2d>
  80010fe:	4604      	mov	r4, r0
@@ -1517,9 +1614,13 @@ Disassembly of section .text:
  8001160:	b2da      	uxtb	r2, r3
  8001162:	4b05      	ldr	r3, [pc, #20]	; (8001178 <main+0x354>)
  8001164:	701a      	strb	r2, [r3, #0]
+//			HAL_UART_Transmit(&huart1, uartTxBuffer, sizeStr, 100); //the string is transmitted over UART using HAL.
+
+		timFlagIt = 0; //Making sure the loop does work properly.
  8001166:	4b05      	ldr	r3, [pc, #20]	; (800117c <main+0x358>)
  8001168:	2200      	movs	r2, #0
  800116a:	701a      	strb	r2, [r3, #0]
+		if(timFlagIt){
  800116c:	e6dd      	b.n	8000f2a <main+0x106>
  800116e:	bf00      	nop
  8001170:	08007ac4 	.word	0x08007ac4
@@ -1528,14 +1629,22 @@ Disassembly of section .text:
  800117c:	2000024c 	.word	0x2000024c
 
 08001180 <SystemClock_Config>:
+/**
+  * @brief System Clock Configuration
+  * @retval None
+  */
+void SystemClock_Config(void)
+{
  8001180:	b580      	push	{r7, lr}
  8001182:	b096      	sub	sp, #88	; 0x58
  8001184:	af00      	add	r7, sp, #0
+  RCC_OscInitTypeDef RCC_OscInitStruct = {0};
  8001186:	f107 0314 	add.w	r3, r7, #20
  800118a:	2244      	movs	r2, #68	; 0x44
  800118c:	2100      	movs	r1, #0
  800118e:	4618      	mov	r0, r3
  8001190:	f003 fd80 	bl	8004c94 <memset>
+  RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
  8001194:	463b      	mov	r3, r7
  8001196:	2200      	movs	r2, #0
  8001198:	601a      	str	r2, [r3, #0]
@@ -1543,47 +1652,82 @@ Disassembly of section .text:
  800119c:	609a      	str	r2, [r3, #8]
  800119e:	60da      	str	r2, [r3, #12]
  80011a0:	611a      	str	r2, [r3, #16]
+
+  /** Configure the main internal regulator output voltage
+  */
+  if (HAL_PWREx_ControlVoltageScaling(PWR_REGULATOR_VOLTAGE_SCALE1) != HAL_OK)
  80011a2:	f44f 7000 	mov.w	r0, #512	; 0x200
  80011a6:	f001 fbfd 	bl	80029a4 <HAL_PWREx_ControlVoltageScaling>
  80011aa:	4603      	mov	r3, r0
  80011ac:	2b00      	cmp	r3, #0
  80011ae:	d001      	beq.n	80011b4 <SystemClock_Config+0x34>
+  {
+    Error_Handler();
  80011b0:	f000 f835 	bl	800121e <Error_Handler>
+  }
+
+  /** Initializes the RCC Oscillators according to the specified parameters
+  * in the RCC_OscInitTypeDef structure.
+  */
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
  80011b4:	2302      	movs	r3, #2
  80011b6:	617b      	str	r3, [r7, #20]
+  RCC_OscInitStruct.HSIState = RCC_HSI_ON;
  80011b8:	f44f 7380 	mov.w	r3, #256	; 0x100
  80011bc:	623b      	str	r3, [r7, #32]
+  RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
  80011be:	2340      	movs	r3, #64	; 0x40
  80011c0:	627b      	str	r3, [r7, #36]	; 0x24
+  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
  80011c2:	2302      	movs	r3, #2
  80011c4:	643b      	str	r3, [r7, #64]	; 0x40
+  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI;
  80011c6:	2302      	movs	r3, #2
  80011c8:	647b      	str	r3, [r7, #68]	; 0x44
+  RCC_OscInitStruct.PLL.PLLM = 1;
  80011ca:	2301      	movs	r3, #1
  80011cc:	64bb      	str	r3, [r7, #72]	; 0x48
+  RCC_OscInitStruct.PLL.PLLN = 10;
  80011ce:	230a      	movs	r3, #10
  80011d0:	64fb      	str	r3, [r7, #76]	; 0x4c
+  RCC_OscInitStruct.PLL.PLLQ = RCC_PLLQ_DIV2;
  80011d2:	2302      	movs	r3, #2
  80011d4:	653b      	str	r3, [r7, #80]	; 0x50
+  RCC_OscInitStruct.PLL.PLLR = RCC_PLLR_DIV2;
  80011d6:	2302      	movs	r3, #2
  80011d8:	657b      	str	r3, [r7, #84]	; 0x54
+  if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
  80011da:	f107 0314 	add.w	r3, r7, #20
  80011de:	4618      	mov	r0, r3
  80011e0:	f001 fc36 	bl	8002a50 <HAL_RCC_OscConfig>
  80011e4:	4603      	mov	r3, r0
  80011e6:	2b00      	cmp	r3, #0
  80011e8:	d001      	beq.n	80011ee <SystemClock_Config+0x6e>
+  {
+    Error_Handler();
  80011ea:	f000 f818 	bl	800121e <Error_Handler>
+  }
+
+  /** Initializes the CPU, AHB and APB buses clocks
+  */
+  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
  80011ee:	230f      	movs	r3, #15
  80011f0:	603b      	str	r3, [r7, #0]
+                              |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
+  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
  80011f2:	2303      	movs	r3, #3
  80011f4:	607b      	str	r3, [r7, #4]
+  RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
  80011f6:	2300      	movs	r3, #0
  80011f8:	60bb      	str	r3, [r7, #8]
+  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
  80011fa:	2300      	movs	r3, #0
  80011fc:	60fb      	str	r3, [r7, #12]
+  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
  80011fe:	2300      	movs	r3, #0
  8001200:	613b      	str	r3, [r7, #16]
+
+  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_4) != HAL_OK)
  8001202:	463b      	mov	r3, r7
  8001204:	2104      	movs	r1, #4
  8001206:	4618      	mov	r0, r3
@@ -1591,17 +1735,38 @@ Disassembly of section .text:
  800120c:	4603      	mov	r3, r0
  800120e:	2b00      	cmp	r3, #0
  8001210:	d001      	beq.n	8001216 <SystemClock_Config+0x96>
+  {
+    Error_Handler();
  8001212:	f000 f804 	bl	800121e <Error_Handler>
+  }
+}
  8001216:	bf00      	nop
  8001218:	3758      	adds	r7, #88	; 0x58
  800121a:	46bd      	mov	sp, r7
  800121c:	bd80      	pop	{r7, pc}
 
 0800121e <Error_Handler>:
+/**
+  * @brief  This function is executed in case of error occurrence.
+  * @retval None
+  */
+void Error_Handler(void)
+{
  800121e:	b480      	push	{r7}
  8001220:	af00      	add	r7, sp, #0
+  \details Disables IRQ interrupts by setting the I-bit in the CPSR.
+           Can only be executed in Privileged modes.
+ */
+__STATIC_FORCEINLINE void __disable_irq(void)
+{
+  __ASM volatile ("cpsid i" : : : "memory");
  8001222:	b672      	cpsid	i
+}
  8001224:	bf00      	nop
+  /* USER CODE BEGIN Error_Handler_Debug */
+	/* User can add his own implementation to report the HAL error return state */
+	__disable_irq();
+	while (1)
  8001226:	e7fe      	b.n	8001226 <Error_Handler+0x8>
 
 08001228 <HAL_MspInit>:

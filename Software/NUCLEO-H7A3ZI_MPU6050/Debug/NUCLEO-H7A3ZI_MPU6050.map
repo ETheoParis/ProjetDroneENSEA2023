@@ -221,7 +221,7 @@ Discarded input sections
  .debug_macro   0x0000000000000000       0x3d ./Core/Src/fonctions.o
  .debug_macro   0x0000000000000000       0x16 ./Core/Src/fonctions.o
  .debug_macro   0x0000000000000000      0x145 ./Core/Src/fonctions.o
- .debug_line    0x0000000000000000      0x631 ./Core/Src/fonctions.o
+ .debug_line    0x0000000000000000      0x63b ./Core/Src/fonctions.o
  .debug_str     0x0000000000000000     0x7531 ./Core/Src/fonctions.o
  .comment       0x0000000000000000       0x51 ./Core/Src/fonctions.o
  .debug_frame   0x0000000000000000      0x11c ./Core/Src/fonctions.o

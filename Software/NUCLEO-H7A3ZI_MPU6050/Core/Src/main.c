@@ -256,6 +256,8 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	HAL_GPIO_TogglePin(LD1_GPIO_Port, LD1_Pin);
 	timFlagIt = 1;
 }
+//This function is a callback function to deal with interuptions of the clock in the process.
+
 /* USER CODE END 4 */
 
 /**

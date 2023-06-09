@@ -283,9 +283,20 @@ Figure 9 : Affichage des valeurs d'accélération et de vitesse angulaire obtenu
 Toutefois, en ce qui concerne les valeurs, on observe une variation en l'absence même de mouvement. Cela est problématique par rapport au fait que l'on intègre 2 fois pour obtenir la position, on aurait dans ce cas beaucoup trop d'incertitudes et de variations par rapport à la réalité au fur et à mesure que le drone vole et se déplace. 
 Il faut donc travailler sur l'échelle de précision du capteur mais nous n'avons pas pu améliorer ce point-ci par manque de temps. Nous aurions également pu filtrer les valeurs et ne garder que celles qui étaient pertinentes.
 
+3. Fonctions intermédiaires
 
 
-3. Optimisation
+Nous avons également crée des fonctions intermédiaires qu'on aurait été appelé à utiliser dans le cas du déplacement de drone, toutefois, comme nous étions assez occupé par l'asservissement et l'optimisation des autres parties, nous n'avons pas pu aboutir à un stade où nous utilisions ces fonctions.
+
+int calculVitesse1D(int acceleration, int vitesseActuelle, int pas);
+void primitive(VECTEUR* derivee, VECTEUR* constante,VECTEUR* primitive, int pas);
+void calculVitesse(VECTEUR* acceleration,VECTEUR* vitesseActuelle,VECTEUR* nouvelleVitesse, int pas);
+void calculPosition(VECTEUR* vitesse,VECTEUR* positionActuelle,VECTEUR* nouvellePosition,int pas);
+int calculCourantMoteur(int reg);
+void recopie(VECTEUR * nouveau, VECTEUR * ancien);
+
+
+4. Optimisation
 
 Pour éviter que le drone ne se pose trop violemment/rapidement, ce qui aurait endommagé les composants, nous aurions pu mesurer et vérifier la variation de résistance vis-à-vis de la rotation des hélices de chaque moteur. Une résistance plus faible aurait témoigné du fait qu'il y a une réaction normale de pousée vis-à-vis du sol et donc cela aurait signifié une proximité plus importante avec le sol.
 

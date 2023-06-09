@@ -1,6 +1,3 @@
-//
-// Created by etheo on 11/04/2023.
-//
 #include "fonctions.h"
 
 int calculVitesse1D(int acceleration, int vitesseActuelle, int pas){
