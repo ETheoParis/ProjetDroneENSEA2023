@@ -333,13 +333,19 @@ On peut également prendre en compte les critères suivants : le coût/les perfo
 Concentrons-nous désormais sur chaque composant : 
 - Batterie : Nous avons choisi une batterie de capacité 3,7 Wh avec une masse = 30g afin de respecter les critères d'emprise spatiale.La capacité a été choisie afin de permettre le respect du cahier des charges (vol sur 10m avec montée et descente) sans trop impacter l'autonomie (puisque la charge influe sur la vitesse de rotation des hélices pour maintenir le drone en vol).
 
--Régulateur de tension (17395xx36): Notre choix de composant présente une efficité maximale de 97%. Cela est bien plus pertinent dans le cas d'un drone avec un accumulateur de faible capacité qu'un régulateur linéaire/LDO qui présente une efficacité maximale moindre.
+- Régulateur de tension (17395xx36): Notre choix de composant présente une efficité maximale de 97%. Cela est bien plus pertinent dans le cas d'un drone avec un accumulateur de faible capacité qu'un régulateur linéaire/LDO qui présente une efficacité maximale moindre.
 
--Moteur: Les critères pris en compte sont principalement la consommation, la taille, la puissance délivrée, le poids et la vitesse (rpm(tr/min) = constante de vélocité * tension. Le rpm va influencer sur la stabilité du vol. Plus celui-ci est faible, plus le vol sera stable). Notre choix s'est porté sur Moteurs Brossés Axe 1.0mm pour Quadricoptère Tiny 8X RC.
+D'ailleurs, la différence d'efficacité entre un régulateur linéaire et un régulateur à découpage s'explique par leur fonctionnement différent :
+Les régulateurs linéaires, tels que les régulateurs de type LDO (Low Drop-Out), fonctionnent en utilisant une configuration de transistors pour réguler la tension de sortie. Ils offrent une sortie stable et régulée, mais la différence de tension entre l'entrée et la sortie (la "chute de tension" ou "drop-out") entraîne une dissipation de puissance importante sous forme de chaleur.  (R*I^2) Cela signifie que les régulateurs linéaires ont une efficacité relativement faible, surtout lorsque la différence de tension entre l'entrée et la sortie est élevée. 
 
--Hélices: Nous prenons en considération leurs longueurs, leurs pas ainsi que leurs compositions (matériaux).
+En revanche, les régulateurs à découpage fonctionnent en commutant rapidement entre un état actif et un état inactif pour maintenir une tension de sortie régulée. Ils utilisent des inductances et des condensateurs pour stocker et transférer l'énergie de manière efficace. Les régulateurs à découpage sont capables de convertir l'énergie de manière beaucoup plus efficace que les régulateurs linéaires, car ils minimisent les pertes de puissance sous forme de chaleur. Cela se traduit par une meilleure efficacité énergétique et une dissipation de chaleur réduite.
 
--Châssis: Nous utilisons un châssis qui est fait en PLA, l'acide polylactique qui est en plastique biodégradable (sous certaines conditions) et recyclable par extrudeuse (le plus simple et moins couteux) ou bien par dépolymérisation et repolymérisation. Il s'agit d'un matériau à faible empreinte carbone, notamment dans le cas d'un prototypage comme on est ammené à faire, il s'agit d'une bonne solution logistique et environnemental. 
+
+- Moteur: Les critères pris en compte sont principalement la consommation, la taille, la puissance délivrée, le poids et la vitesse (rpm(tr/min) = constante de vélocité * tension. Le rpm va influencer sur la stabilité du vol. Plus celui-ci est faible, plus le vol sera stable). Notre choix s'est porté sur Moteurs Brossés Axe 1.0mm pour Quadricoptère Tiny 8X RC.
+
+- Hélices: Nous prenons en considération leurs longueurs, leurs pas ainsi que leurs compositions (matériaux).
+
+- Châssis: Nous utilisons un châssis qui est fait en PLA, l'acide polylactique qui est en plastique biodégradable (sous certaines conditions) et recyclable par extrudeuse (le plus simple et moins couteux) ou bien par dépolymérisation et repolymérisation. Il s'agit d'un matériau à faible empreinte carbone, notamment dans le cas d'un prototypage comme on est ammené à faire, il s'agit d'une bonne solution logistique et environnemental. 
 _____________________________________________________________________________________________________________________________________
 => Sources :
 
