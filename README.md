@@ -36,20 +36,19 @@ ________________________________________________________________________________
 
 I.2 Organisation :
 
-Afin de travailler efficacement, nous avons choisi de créer un groupe Messenger. Ce dernier nous a permis de partager nos avancées individuelles en dehors des séances de projet. Nous présentions nos recherches et idées que nous avions pour résoudre les problèmes que nous avons rencontrés. De plus, nous avons réalisé dès la première séance un diagramme de Gantt pour suivre l’évolution de nos tâches respectives et du projet dans sa globalité. 
+Afin de travailler facilement, nous avons choisi de créer un groupe Messenger. Ce dernier nous a permis de partager nos avancées individuelles en dehors des séances de projet. Nous présentions nos recherches et idées que nous avions pour résoudre les problèmes que nous avons rencontrés. De plus, nous avons réalisé dès la première séance un diagramme de Gantt pour suivre l’évolution de nos tâches respectives et du projet dans sa globalité. 
 
 ____________________________________________________________________________________________________________________________________________________________
 ____________________________________________________________________________________________________________________________________________________________
 
 II.Hardware
 
-<<<<<<< HEAD
 II. Réalisation :
 
 II.1 Le PCB :
 
 Afin de réaliser le PCB, nous avons commencé par faire le schématique. 
-Nous avons tout d’abord rassemblé toutes les datasheets et nous avons dessiné un diagramme pour visualiser le placement des composants (Cf figure.1 ) ainsi que le nombre de composants nécessaires pour concevoir le PCB. Par la suite, nous avons regardé les schémas présents dans les datasheets pour connaitre la valeurs des résistances et des condensateurs à placer autour du régulateur et des blocs moteurs. Nous nous sommes également aidés du TD concernant Kicad pour trouver les valeurs des résistances à placer autour de la carte stm32. 
+Nous avons tout d’abord rassemblé toutes les datasheets et nous avons dessiné un diagramme pour visualiser le placement des composants (Cf figure.1 ) ainsi que le nombre de composants nécessaires pour concevoir le PCB. Par la suite, nous avons regardé les schémas présents dans les datasheets pour connaitre la valeurs des résistances et des condensateurs à placer autour du régulateur et des blocs moteurs. Nous nous sommes également aidés du TD concernant KiCad pour trouver les valeurs des résistances à placer autour de la carte STM32. 
 
           
 ![diagramme hardware](https://github.com/ETheoParis/ProjetDroneENSEA2023/blob/main/Images/diagramme%20hard.JPG)
@@ -148,46 +147,11 @@ Mettre du flux pour éviter les courts circuits (surtout pour le microprocesseur
 Souder en premier les petits composants et en dernier les connecteurs (notamment pour éviter de les brûler).
 
 
+III. L’asservissement :
 
+____________________________________________________________________________________________________________________________________________________________
 
-
-
-II.2 Les codes informatiques :
-On utilise une structure de vecteurs à 3 coordonnées et des fonctions pour pouvoir primitiver les vecteurs afin d’obtenir la position.
-La fonction calculCCR permet de faire le lien entre une tension voulue et la PWM. Son résultat serait utilisé dans la fonction __HAL_TIM_SET_COMPARE pour changer la valeurs de la PWM.
-calculCourantMoteur utilise la tension au borne de la résistance Rshunt pour calculer le courant dans le moteur. Son résultat devait servir à mesurer la distance avec le sol.
-Pour la récupération des données de la centrale inertielle on utilise HAL_TIM_PeriodElapsedCallback pour échantillonner la récupération des données à la fréquence du timer. Les données sont lues par HAL_I2C_Mem_Read puis enregistrées dans Rec_Data et recopier dans x, y, z. HAL_UART_Transmit permet de tester le fonctionnement du MPU en récupérant les données sur un ordinateur.
-II.3 L’asservissement :
-II.3.1 Modélisation 1 : Discrétisation-Découplage 
-
-Nous avons basé notre premier modèle sur le document State Space System Modelling of a Quadcopter UAV qui donnait une représentation d'état du système.
-
-Représentation d’état du système 
-
-Après avoir mis en forme les équations sur Matlab et défini les paramètres de l’étude, on détermine les indices relatifs en cherchant CArho-1 ≠ 0. On obtient les résultats suivants : 
-
-
-On peut alors déterminer l’inverse de la matrice de découplage, on constate un problème car le système possède 4 commandes pour 6 sorties. On ne peut donc pas découpler les variables du système car le système est sous-actionné (cf cours d'asservissement).
-Nous avons donc changé de modèle pour se baser sur celui de la simulation quadcopter (par Monsieur Djemai).
-(Mettre une image du fichier Matlab) 
-=======
-II.1 Le PCB :
-
-Afin de réaliser le PCB, nous avons commencé par faire le schématic. 
-Nous avons tout d’abord rassemblé toutes les datasheets et nous avons dessiné un diagramme pour visualiser le placement des composants ainsi que le nombre de composants nécessaire concevoir le PCB. Par la suite, nous avons regardé les schémas présents dans les datasheets pour connaitre la valeurs des résistances et des condensateurs à placer autour du régulateur et des blocs moteurs. Nous nous sommes également aidés du TD concernant Kicad pour trouver les valeurs des résistances à placer autour de la carte stm32. 
-Nous avons donc abouti au schématic suivant :
- 
-____________________________________________________________________________________________________________________________________________________________			
-II.2 
-
-
-
-
-________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________	
-
-III. Asservissement :	
-	
-III.1 Recherches préalables : 
+III.1. Recherches préalables : 
 
 Dans un premier temps, nous avons commencé par trouver une documentation adaptée à nos besoins. Il fut difficile de trouver des ressources pertinentes. Finalement, nous nous sommes basés principalement sur les articles suivants :
 
@@ -195,17 +159,14 @@ Dans un premier temps, nous avons commencé par trouver une documentation adapt�
 - State Space System Modelling of a Quad Copter UAV : https://arxiv.org/pdf/1908.07401.pdf (2)
 - Cours d'asservissement de M.Haidar (3)
 
-____________________________________________________________________________________________________________________________________________________________
 
-III. 2 Modélisation : 
+III.2. 1ère Modélisation : Discrétisation-Découplage 
 
-On commence par effectuer une représentation d'état du système. On se base sur l'article (2) qui permet de modéliser notre drone de la façon suivante : 
+Nous avons basé notre premier modèle sur le document State Space System Modelling of a Quadcopter UAV qui donnait une représentation d'état du système.
 
-https://imgur.com/mRCuQtt
+Représentation d’état du système 
 
-On cherche à obtenir la matrice de découplage de la forme:
-
-![Capture d’écran 2023-06-09 162437](https://github.com/ETheoParis/ProjetDroneENSEA2023/assets/128490640/7e70dc55-2a5f-42c6-a7ea-df3ccc31d49a)
+Après avoir mis en forme les équations sur Matlab et défini les paramètres de l’étude, on détermine les indices relatifs en cherchant CArho-1 ≠ 0. On obtient les résultats suivants : 
 
 On doit donc calculer les rho de chaque ligne.
 Avec matlab on trouve les différent rho tel que la matrice soit inversible. Pour cela il suffit que au moins 1 des coefficient de la ligne soit non nul.
@@ -213,27 +174,33 @@ Une fois la matrice de découplage obtenu la commande est obtenu par la relation
 
 ![image](https://github.com/ETheoParis/ProjetDroneENSEA2023/assets/128490640/45edf08e-c4a2-4969-8f78-6efd1792d97f)
 
-On devrait en suite pourvoir liée chaque commande avec la tension dans les moteurs. En effet U1 est la somme des forces, U2 le couple selon l'axe x,U3 le couple selon l'axe y,U4 le couple selon l'axe z.
-Cependant il est impossible d'inversé la matrice de découplage car elle n'est pas carré. Le système possède trop de sortie pour trop peut de commande. Nous sommes donc contraint de chancher de modèle.
+On devrait ensuite pouvoir lier chaque commande avec la tension dans les moteurs. En effet U1 est la somme des forces, U2 le couple selon l'axe x,U3 le couple selon l'axe y,U4 le couple selon l'axe z.
 
+On peut alors déterminer l’inverse de la matrice de découplage, on constate un problème car le système possède 4 commandes pour 6 sorties. On ne peut donc pas découpler les variables du système car le système est sous-actionné (cf cours d'asservissement).
+Nous avons donc changé de modèle pour se baser sur celui de la simulation quadcopter (par Monsieur Djemai).
+(Mettre une image du fichier Matlab) 
+=======
 
-
+__________________________________________________________________________________________________
 ____________________________________________________________________________________________________________________________________________________________  
 III. 3 Nouvelle modélisation : 
 On se base sur une nouvelle modélisation qui nous donne directement l'équation des couples et de la somme des forces des moteurs en fonction des accélérations. 
 Il faudrait trouver un moyen de déterminer les fonctions seuil et les constants réstantes. On sait déja que mu est la force minimum des moteurs pour faire décoler de drone. Avec plus de temps il aurait surment été possible de faire fonctionner l'asservissement.
 
 
-
-
-____________________________________________________________________________________________________________________________________________________________
-____________________________________________________________________________________________________________________________________________________________
-____________________________________________________________________________________________________________________________________________________________
-____________________________________________________________________________________________________________________________________________________________
 IV. Software :
 
 Nous avons basé notre premier modèle sur le document State Space System Modelling of a Quad Copter UAV qui donnait une représentation d'état du système. Après avoir mis en forme les équations sur matlab on obtient un problème car le système possède 4 commande pour 6 sortie. On ne peut donc pas découpler les variables du système (cf cours d'assevissement).
 Nous avons donc changé de modèle pour se basé sur celui de la simulation quadcopter (par Djemai).
+
+
+1. PWM
+
+On utilise une structure de vecteurs à 3 coordonnées et des fonctions pour pouvoir primitiver les vecteurs afin d’obtenir la position.
+La fonction calculCCR permet de faire le lien entre une tension voulue et la PWM. Son résultat serait utilisé dans la fonction __HAL_TIM_SET_COMPARE pour changer la valeurs de la PWM.
+calculCourantMoteur utilise la tension au borne de la résistance Rshunt pour calculer le courant dans le moteur. Son résultat devait servir à mesurer la distance avec le sol.
+Pour la récupération des données de la centrale inertielle on utilise HAL_TIM_PeriodElapsedCallback pour échantillonner la récupération des données à la fréquence du timer. Les données sont lues par HAL_I2C_Mem_Read puis enregistrées dans Rec_Data et recopier dans x, y, z. HAL_UART_Transmit permet de tester le fonctionnement du MPU en récupérant les données sur un ordinateur.
+
 
 
 
